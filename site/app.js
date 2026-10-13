@@ -2,7 +2,7 @@
 'use strict';
 const emptyMarket={status:'pending',schema:2,generated_at:null,quote_collected_at:null,stocks:[],candidates:[],sectors:[],histories:{},backtests:{},coverage:{},quality:{},warnings:[]};
 const KEY_WATCH='ashare-radar-watch-v2', KEY_SIM='ashare-radar-paper-v2';
-const pageTitles={overview:'市场总览',screener:'全市场选股',strategies:'量化策略库',watchlist:'我的自选',backtest:'策略回测',simulator:'模拟账户',quality:'数据质量',assistant:'ChatGPT 研究'};
+const pageTitles={overview:'市场总览',screener:'全市场选股',strategies:'量化策略库',research:'研究引擎',tracking:'信号追踪',watchlist:'我的自选',backtest:'策略回测',simulator:'模拟账户',quality:'数据质量',assistant:'ChatGPT 研究'};
 const state={page:'overview',market:emptyMarket,watch:loadJson(KEY_WATCH,[]),paper:loadJson(KEY_SIM,{initial:100000,cash:100000,trades:[]}),
   search:'',filter:'all',selected:null,backtest:null,stockLimit:60,tab:'candidates'};
 function loadJson(key,fallback){try{const x=JSON.parse(localStorage.getItem(key));return x===null?fallback:x}catch{return fallback}}
@@ -107,7 +107,21 @@ function strategies(){
   const stats=`<div class='metrics'>${metric('内置规则',rules.length?n(rules.length,0):'—','包含等待数据源的研究方向')}${metric('已编码规则',rules.length?n(active.length,0):'—','不等于已验证盈利')}${metric('K线核验股票',count,'当前只覆盖初筛股票')}${metric('今日触发',lib.signal_count==null?'—':n(lib.signal_count,0),'仅真实交易数据')}</div>`;
   return title('QUANT STRATEGY LAB','量化策略库','可复现规则和真实信号，独立于交易指令。')+marketWarning()+stats+`<div class='info-banner warn' style='margin-top:18px'>策略均为研究假设，尚无样本外净收益证明。信号在收盘后才确定，不能按该收盘价假定成交。覆盖范围：${esc(lib.scope||'尚无已验证策略结果')}。</div><div style='margin-top:18px'>${panel('规则及数据要求',ruleHtml)}</div><div style='margin-top:18px'>${panel('实际触发信号',signalHtml)}</div>`;
 }
-function render(){notifyNav();const renderers={overview,screener,strategies,watchlist,backtest,simulator,quality,assistant:aiPage};$('#content').innerHTML=(renderers[state.page]||overview)()}
+function research(){
+  const d=state.market, a=d.alphasift||{}, bk=d.research_backtests||{}, studies=d.backtests||{};
+  const pickRows=(Array.isArray(a.picks)?a.picks:[]).slice(0,20);
+  const picks=pickRows.length?`<div class='rule-list'>${pickRows.map((p,i)=>`<div class='rule'><b>${i+1}. ${esc(p.name||'股票')} · ${esc(p.code)}</b><div class='hint'>AlphaSift分数：${n(p.final_score,2)} · 策略：${esc(a.strategy||'未知')} · 独立行情来源：${esc(a.snapshot_source||'未说明')}</div></div>`).join('')}</div>`:empty('没有通过验证的 AlphaSift 候选','状态：'+esc(a.status||'未接入')+'；接口失败时不显示假结果。');
+  const resultRows=Object.values(studies).filter(x=>x&&x.engine==='AKQuant');
+  const reports=resultRows.length?`<div class='rule-list'>${resultRows.map(v=>{const m=v.metrics||{};return `<div class='rule'><b>${esc(v.name)} · ${esc(v.symbol)}</b><div class='hint'>样本：${esc(v.sample_start)} 至 ${esc(v.sample_end)} · 扣费模拟收益 ${percent(m.total_return_pct)} · 回撤 ${n(m.max_drawdown_pct,3)}% · 夏普 ${n(m.sharpe,2)} · 交易记录 ${n(m.trade_count,0)}</div><div class='hint'>${esc(v.scope||'限定样本研究')}；此样本策略无法代表全市场，不构成未来盈利证明。</div></div>`}).join('')}</div>`:empty('AKQuant 尚无有效结果','最新状态：'+esc(bk.status||'未接入')+'；不以虚拟收益填充。');
+  return title('OPEN SOURCE RESEARCH','量化研究引擎','透明展示 AlphaSift 及 AKQuant 的真实运行输出。')+marketWarning()+`<div class='metrics'>${metric('AlphaSift',esc(a.status||'未接入'),'独立量化筛选引擎')}${metric('独立候选',pickRows.length?n(pickRows.length,0):'—','不与本地候选混作同源')}${metric('AKQuant',esc(bk.status||'未接入'),'仅特定样本实验')}${metric('回测样本',n(resultRows.length,0),'尚非全市场组合回测')}</div><div style='margin-top:18px'>${panel('AlphaSift 实际筛选结果',picks)}</div><div style='margin-top:18px'>${panel('AKQuant 有限样本历史回测',reports)}</div><p class='page-foot'>研究代码和数据可能有数据版本、历史成本及样本偏差。不能将回测当作必然可实现收益。</p>`;
+}
+function tracking(){
+  const t=state.market.signal_tracking||{}, horizons=t.horizons||{};
+  const steps=[1,5,10,20].map(nobs=>{const z=horizons[String(nobs)]||{};return `<div class='rule'><b>后续成功采集 ${nobs} 次</b><div class='hint'>成熟样本 ${n(z.matured_signals||0,0)} · 平均变化 ${z.mean_sampled_change_pct==null?'—':percent(z.mean_sampled_change_pct)} · 上涨比例 ${z.positive_ratio_pct==null?'—':n(z.positive_ratio_pct,2)+'%'}</div></div>`}).join('');
+  const tip=(t.status==='ok')?'记录已接入；零成熟样本说明尚未积累到观察期限。':'追踪状态：'+esc(t.status||'未接入')+'；不可填造样本。';
+  return title('FORWARD OBSERVATION','前瞻信号追踪','记录股票被筛选后的真实价格变化，不用未来数据回写历史信号。')+marketWarning()+`<div class='metrics'>${metric('累计追踪',t.tracked_total==null?'—':n(t.tracked_total,0),'公开策略信号记录')}${metric('本次新增',t.added_today==null?'—':n(t.added_today,0),'收盘快照通过校验后入账')}${metric('观察日期',esc(t.market_session||'—'),'交易日一致性检验')}${metric('成熟样本',n(Object.values(horizons).reduce((a,h)=>a+Number(h.matured_signals||0),0),0),'不同观察窗口不可简单累加成独立股票')}</div><div class='info-banner warn' style='margin-top:18px'>${tip} 观察窗口按成功采集次数计算，不一定等于真实交易日；未计入复权、滑点、佣金和停牌等实际交易条件。</div><div style='margin-top:18px'>${panel('不同观察窗口 · 真实样本',`<div class='rule-list'>${steps}</div>`)}</div>`;
+}
+function render(){notifyNav();const renderers={overview,screener,strategies,research,tracking,watchlist,backtest,simulator,quality,assistant:aiPage};$('#content').innerHTML=(renderers[state.page]||overview)()}
 function addWatch(code){if(!sym(code)){toast('请输入六位股票代码');return}if(!state.watch.includes(code))state.watch.push(code);save(KEY_WATCH,state.watch);toast(`已添加 ${code} · 当前设备本地存储`);render()}
 function simulate(form){const fd=new FormData(form),side=fd.get('side'),code=String(fd.get('code')||'').trim(),qty=Number(fd.get('qty')),price=Number(fd.get('price'));
 if(!sym(code)||!Number.isInteger(qty)||qty<100||qty%100!==0||!Number.isFinite(price)||price<=0){toast('请核对代码、价格及100股整手数量');return}

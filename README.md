@@ -59,3 +59,16 @@
 - [前瞻信号追踪 JSON](https://raw.githubusercontent.com/Veraleehappiness/ashare-radar/data/signal_ledger.json)（第一次新工作流成功后出现）
 
 > Netlify 的既有网页前端若没有适配 \`signal_tracking\`，不会自动显示该新模块；GitHub 数据端已经可记录，网页仍需单独升级。
+
+
+## 量化策略实验库（研究版）
+
+代码：[`scripts/strategy_rules.py`](scripts/strategy_rules.py)；测试：[`tests/test_strategy_rules.py`](tests/test_strategy_rules.py)。
+
+已经编码的 4 套策略：`bottom_reversal_v1`（底部反转）、`volume_breakout_v1`（放量突破）、`trend_pullback_v1`（趋势回踩）、`short_rebound_v1`（短期反弹）。另外 3 套行业轮动、质量价值、低波动等待相应历史数据；不输出伪造信号。
+
+行情文件 `data/market.json` 新增 `strategy_library` 字段：`rules` 为完整定义，`signals` 仅为真实触发记录，`evaluated_stocks` 为实际历史日线分析的股票数量。
+
+注意：这只是对当前基础初筛的最多 30 只股票追加规则评估，并非全市场回测。所有阈值为待检验假设，不是已验证正收益的买卖策略。信号是收盘后计算，最早在后续可成交交易时点模拟。必须在考虑 T+1、涨跌停、停牌、费用、滑点、复权和退市样本后进行样本外净收益验证。
+
+GitHub `site/` 已增加「量化策略库」页面和移动端入口。静态站部署到 Netlify 前，该功能不会自动出现在生产网站。

@@ -12,6 +12,8 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
+from scripts.strategy_rules import STRATEGIES, evaluate_rules
+
 TZ = ZoneInfo("Asia/Shanghai")
 ROOT = Path(__file__).resolve().parents[1]
 COLUMNS = {
@@ -134,6 +136,7 @@ def build(out: Path, max_history: int):
                           (pool.amount/1e8).clip(0, 20))
     pool = pool.sort_values("rank_value", ascending=False).head(max_history)
     candidates, histories, warnings = [], {}, []
+    library_signals, library_evaluated = [], 0
     audited = 0
     for item in pool.to_dict("records"):
         code = str(item["code"])
@@ -150,6 +153,11 @@ def build(out: Path, max_history: int):
                           "low": float(r.low), "volume": float(r.volume)}
                          for r in x.tail(170).itertuples(index=False)]
             }
+            try:
+                library_signals.extend(evaluate_rules(x, code, str(item["name"])))
+                library_evaluated += 1
+            except Exception as strategy_error:
+                warnings.append(f"{code} strategy catalog: {str(strategy_error)[:130]}")
             if signal["signal"] != "未触发":
                 candidates.append({
                     "code": code, "name": str(item["name"]),
@@ -189,6 +197,16 @@ def build(out: Path, max_history: int):
         "stocks": stocks, "candidates": candidates[:20],
         "histories": histories, "sectors": sectors[:16],
         "backtests": {}, "warnings": warnings[:90],
+        "strategy_library": {
+            "status": "research_only",
+            "version": "1.0",
+            "rules": STRATEGIES,
+            "evaluated_stocks": library_evaluated,
+            "signal_count": len(library_signals),
+            "signals": library_signals[:160],
+            "scope": "仅初筛候选的历史K线，不是全市场扫描；信号是研究假设，未验证盈利",
+            "execution": "今日收盘后才知道的规则触发，最早次日按实际可成交价模拟",
+        },
         "source_projects": ["akfamily/akshare"]
     }
     out.parent.mkdir(parents=True, exist_ok=True)

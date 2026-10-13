@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 
 import pandas as pd
 
-from scripts.strategy_rules import STRATEGIES, evaluate_rules
+from strategy_rules import STRATEGIES, evaluate_rules
 
 TZ = ZoneInfo("Asia/Shanghai")
 ROOT = Path(__file__).resolve().parents[1]

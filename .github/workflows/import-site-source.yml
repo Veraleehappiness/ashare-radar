@@ -1,0 +1,45 @@
+name: Import existing Netlify site into GitHub
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/import-site-source.yml'
+      - 'scripts/import_netlify_site.py'
+permissions:
+  contents: write
+concurrency:
+  group: import-netlify-public-site
+  cancel-in-progress: false
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Download and validate public deployed static site
+        run: python3 scripts/import_netlify_site.py --destination site
+      - name: Validate imported assets
+        run: |
+          node --check site/app.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          assert 'AShare Radar' in Path('site/index.html').read_text()
+          assert 'market_data_url' in json.loads(Path('site/config.json').read_text())
+          print('Static assets and market URL verified.')
+          PY
+      - name: Commit site files
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add site
+          if git diff --cached --quiet; then
+            echo 'No change in imported assets'
+            exit 0
+          fi
+          git commit -m 'site: version the existing public Netlify frontend'
+          git push origin HEAD:main

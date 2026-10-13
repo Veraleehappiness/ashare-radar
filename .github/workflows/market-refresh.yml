@@ -7,6 +7,8 @@ on:
       - 'scripts/build_data.py'
       - 'scripts/enrich_research.py'
       - 'tests/test_research.py'
+      - 'tests/test_tracker.py'
+      - 'scripts/track_signals.py'
       - 'requirements-data.txt'
       - '.github/workflows/market-refresh.yml'
   schedule:
@@ -43,11 +45,20 @@ jobs:
         continue-on-error: true
         run: python -m pip install 'git+https://github.com/ZhuLinsen/alphasift.git@7639195e6176f4af37086c282834a7c09dc3e4a3'
       - name: Run offline research tests
-        run: python -m unittest discover -s tests -p 'test_research.py' -v
+        run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Build verified market data
         run: python scripts/build_data.py --max-history 30 --out "$RUNNER_TEMP/market.json"
       - name: Run optional AlphaSift and AKQuant research
         run: python scripts/enrich_research.py --input "$RUNNER_TEMP/market.json"
+      - name: Build verifiable forward-signal scorecard
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git fetch origin data
+            git show FETCH_HEAD:signal_ledger.json > "$RUNNER_TEMP/previous_ledger.json" 2>/dev/null || rm -f "$RUNNER_TEMP/previous_ledger.json"
+          fi
+          python scripts/track_signals.py --market "$RUNNER_TEMP/market.json" --previous "$RUNNER_TEMP/previous_ledger.json" --ledger-out "$RUNNER_TEMP/signal_ledger.json"
       - name: Publish public market-only JSON to data branch
         shell: bash
         run: |
@@ -62,7 +73,8 @@ jobs:
             git rm -rf . >/dev/null 2>&1 || true
           fi
           cp "$RUNNER_TEMP/market.json" market.json
-          git add -f market.json
+          cp "$RUNNER_TEMP/signal_ledger.json" signal_ledger.json
+          git add -f market.json signal_ledger.json
           git diff --cached --quiet && exit 0
           git commit -m 'market: update A-share nonpersonal snapshot'
           git push origin data

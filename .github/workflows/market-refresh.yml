@@ -6,6 +6,8 @@ on:
     paths:
       - 'scripts/build_data.py'
       - 'scripts/strategy_rules.py'
+      - 'scripts/prescreen.py'
+      - 'tests/test_prescreen.py'
       - 'tests/test_strategy_rules.py'
       - 'scripts/enrich_research.py'
       - 'tests/test_research.py'
@@ -49,7 +51,7 @@ jobs:
       - name: Run offline research tests
         run: python -m unittest discover -s tests -p 'test_*.py' -v
       - name: Build verified market data
-        run: python scripts/build_data.py --max-history 30 --out "$RUNNER_TEMP/market.json"
+        run: python scripts/build_data.py --max-history 60 --out "$RUNNER_TEMP/market.json"
       - name: Run optional AlphaSift and AKQuant research
         run: python scripts/enrich_research.py --input "$RUNNER_TEMP/market.json"
       - name: Build verifiable forward-signal scorecard

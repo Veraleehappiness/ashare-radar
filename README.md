@@ -41,3 +41,21 @@
 - **不是全市场逐只股票历史回测**，也不覆盖历史退市股票、除权送转/股息、全部涨跌停流动性限制与所有交易滑点情形。禁止将结果当成实盘盈利证明。
 - V0.4 网页升级包需要在 Netlify 原项目的 **Deploys** 中手动部署，才能显示新增的 AlphaSift 区域和专业回测标识；GitHub `data` 分支的刷新不等于网页自动更新。
 - 运行验证：`python -m unittest discover -s tests -p 'test_research.py' -v`；GitHub Actions 首次完成后检查 `market.json` 的 `alphasift.status`、`research_backtests.status` 和 `backtests`。
+
+
+## V0.5 前瞻信号追踪（无需付费 AI）
+
+新增 \`scripts/track_signals.py\` 和 \`tests/test_tracker.py\`。
+
+- 使用当前已完成日 K 线的一致交易日期，锁定信号记录日；缺少有效日期、日期不一致、非交易日、停牌/零成交额时不补造结果。
+- 分别记录自定义选股 Top 10 和 AlphaSift Top 10 的信号、来源、价格及日期；同一个交易日重复刷新不重复入账。
+- 随后收集真实 **1 / 5 / 10 / 20 次成功采集的收盘快照**，计算样本涨跌幅、正收益比例和样本数。**这些数字并不严格等于 N 个交易日**，GitHub 漏运行也不会假装成交。
+- 数据在公共 \`data/signal_ledger.json\` 分支文件中保存，仅包括公开股票行情及公开策略信号；不保存你的持仓或交易账户。
+- 最多保留最近 2,500 条记录，出现截断会明确披露。使用不复权价格、不含交易费/滑点/分红/复权调整或历史退市偏差，**不能等同于量化回测的真实盈利收益**。
+- \`market.json\` 新增 \`signal_tracking\`，在数据累积之后才会出现真实成熟样本表现；初期成熟样本为零是正常的。
+
+数据文件：
+- [当前市场行情 JSON](https://raw.githubusercontent.com/Veraleehappiness/ashare-radar/data/market.json)
+- [前瞻信号追踪 JSON](https://raw.githubusercontent.com/Veraleehappiness/ashare-radar/data/signal_ledger.json)（第一次新工作流成功后出现）
+
+> Netlify 的既有网页前端若没有适配 \`signal_tracking\`，不会自动显示该新模块；GitHub 数据端已经可记录，网页仍需单独升级。

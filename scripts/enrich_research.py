@@ -133,6 +133,7 @@ def run_akquant():
                 min_commission=5.0,
                 lot_size=100,
                 t_plus_one=True,
+                history_depth=80,
                 fill_policy=NextOpen(),
                 show_progress=False,
             )

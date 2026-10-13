@@ -13,7 +13,7 @@ spec.loader.exec_module(tracker)
 def data_for(day="2026-10-13", price=10.0, last_bar=None):
     actual_bar = last_bar or day
     rows = [{"code": f"{i:06d}", "name": f"stock-{i}", "price": price,
-             "amount": 1000000} for i in range(1000)]
+             "amount": 1000000} for i in range(1200)]
     return {
         "status": "ok", "generated_at": f"{day}T18:00:00+08:00",
         "stocks": rows,

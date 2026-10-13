@@ -1,0 +1,50 @@
+name: AShare Radar market refresh
+on:
+  workflow_dispatch:
+  schedule:
+    # Beijing time 16:45 and 19:20, Mon-Fri
+    - cron: '45 8 * * 1-5'
+    - cron: '20 11 * * 1-5'
+permissions:
+  contents: write
+concurrency:
+  group: market-data-refresh
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-data.txt
+      - name: Install data dependencies
+        run: python -m pip install -r requirements-data.txt
+      - name: Build verified market data
+        run: python scripts/build_data.py --max-history 30 --out "$RUNNER_TEMP/market.json"
+      - name: Publish public market-only JSON to data branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git ls-remote --exit-code --heads origin data >/dev/null 2>&1; then
+            git fetch origin data:data
+            git switch data
+          else
+            git switch --orphan data
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          cp "$RUNNER_TEMP/market.json" market.json
+          git add -f market.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'market: update A-share nonpersonal snapshot'
+          git push origin data

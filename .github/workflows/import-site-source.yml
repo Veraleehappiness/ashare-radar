@@ -42,4 +42,21 @@ jobs:
             exit 0
           fi
           git commit -m 'site: version the existing public Netlify frontend'
-          git push origin HEAD:main
+          # A concurrent push to main is normal during setup. Rebase safely and retry.
+          # Never force-push or overwrite a newer site version on a rebase conflict.
+          for attempt in 1 2 3; do
+            git fetch origin main
+            git rebase origin/main || {
+              git rebase --abort
+              echo 'Existing main branch changed the same files. Manual review required.'
+              exit 1
+            }
+            if git push origin HEAD:main; then
+              echo 'Public frontend imported successfully'
+              exit 0
+            fi
+            echo "Concurrent update during attempt $attempt; retrying"
+            sleep 2
+          done
+          echo 'Push rejected after three safe retries'
+          exit 1

@@ -1,6 +1,12 @@
 name: AShare Radar market refresh
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/build_data.py'
+      - 'requirements-data.txt'
+      - '.github/workflows/market-refresh.yml'
   schedule:
     # Beijing time 16:45 and 19:20, Mon-Fri
     - cron: '45 8 * * 1-5'

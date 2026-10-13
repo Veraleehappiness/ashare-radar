@@ -1,0 +1,32 @@
+name: Validate frontend on site changes
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - 'netlify.toml'
+      - '.github/workflows/site-check.yml'
+permissions:
+  contents: read
+jobs:
+  frontend:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check static site source
+        run: |
+          test -s site/index.html
+          test -s site/app.js
+          test -s site/style.css
+          node --check site/app.js
+          python3 - <<'PY'
+          from pathlib import Path
+          import json
+          cfg=json.loads(Path('site/config.json').read_text())
+          assert cfg['market_data_url']=='https://raw.githubusercontent.com/Veraleehappiness/ashare-radar/data/market.json'
+          assert 'Personal Research' in Path('site/index.html').read_text()
+          assert 'site' in Path('netlify.toml').read_text()
+          print('Frontend contract OK')
+          PY

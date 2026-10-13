@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'scripts/build_data.py'
+      - 'scripts/enrich_research.py'
+      - 'tests/test_research.py'
       - 'requirements-data.txt'
       - '.github/workflows/market-refresh.yml'
   schedule:
@@ -19,7 +21,7 @@ concurrency:
 jobs:
   refresh:
     runs-on: ubuntu-latest
-    timeout-minutes: 28
+    timeout-minutes: 40
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
@@ -34,8 +36,18 @@ jobs:
           cache-dependency-path: requirements-data.txt
       - name: Install data dependencies
         run: python -m pip install -r requirements-data.txt
+      - name: Install AKQuant backtest engine (optional)
+        continue-on-error: true
+        run: python -m pip install 'akquant>=0.2.10,<0.4'
+      - name: Install AlphaSift from pinned upstream commit (optional)
+        continue-on-error: true
+        run: python -m pip install 'git+https://github.com/ZhuLinsen/alphasift.git@7639195e6176f4af37086c282834a7c09dc3e4a3'
+      - name: Run offline research tests
+        run: python -m unittest discover -s tests -p 'test_research.py' -v
       - name: Build verified market data
         run: python scripts/build_data.py --max-history 30 --out "$RUNNER_TEMP/market.json"
+      - name: Run optional AlphaSift and AKQuant research
+        run: python scripts/enrich_research.py --input "$RUNNER_TEMP/market.json"
       - name: Publish public market-only JSON to data branch
         shell: bash
         run: |

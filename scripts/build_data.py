@@ -13,6 +13,7 @@ from zoneinfo import ZoneInfo
 import pandas as pd
 
 from strategy_rules import STRATEGIES, evaluate_rules
+from prescreen import select_history_pool
 
 TZ = ZoneInfo("Asia/Shanghai")
 ROOT = Path(__file__).resolve().parents[1]
@@ -128,13 +129,8 @@ def build(out: Path, max_history: int):
         stocks.append({k: scalar(row.get(k)) for k in
                        ("code", "name", "price", "change_pct", "volume",
                         "amount", "volume_ratio", "pe", "pb", "industry")})
-    pool = market[(market.price >= 3) & (market.amount >= 20_000_000) &
-                  market.change_pct.between(-4, 9.5)].copy()
-    pool = pool[~pool.name.str.contains(r"ST|退", case=False, regex=True, na=False)]
-    pool["rank_value"] = (pool.volume_ratio.fillna(0).clip(0, 5)*10 +
-                          pool.change_pct.clip(lower=0)*2 +
-                          (pool.amount/1e8).clip(0, 20))
-    pool = pool.sort_values("rank_value", ascending=False).head(max_history)
+    pool = select_history_pool(market, max_history)
+    sampling = pool.attrs.get("selection", {})
     candidates, histories, warnings = [], {}, []
     library_signals, library_evaluated = [], 0
     audited = 0
@@ -188,6 +184,7 @@ def build(out: Path, max_history: int):
                      "prescreen_count": int(len(pool)),
                      "history_attempted": int(len(pool)),
                      "history_succeeded": int(audited),
+                     "selection": sampling,
                      "signal_count": int(min(20, len(candidates))),
                      "scope": "全市场快照初筛 + 有限候选日线检查；并非全市场逐股历史回测"},
         "quality": {"rows": int(len(stocks)), "raw_rows": market.attrs.get("raw_count"),
@@ -222,7 +219,7 @@ def build(out: Path, max_history: int):
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser()
-    p.add_argument("--max-history", type=int, default=30)
+    p.add_argument("--max-history", type=int, default=60)
     p.add_argument("--out", default="market.json")
     a = p.parse_args()
     if not 1 <= a.max_history <= 120: p.error("max-history must be 1..120")

@@ -31,6 +31,10 @@ def fetch(filename: str) -> bytes:
     return payload
 
 def sync(destination: Path) -> str:
+    # Bootstrap-only: never replace a Git-versioned frontend with an older live deploy.
+    if (destination / "index.html").is_file():
+        print("Frontend is already version-controlled; skipping import to protect newer code.")
+        return "already-imported"
     sources = {name: fetch(name) for name in ("index.html", "app.js", "style.css")}
     html = sources["index.html"].decode("utf-8")
     javascript = sources["app.js"].decode("utf-8")

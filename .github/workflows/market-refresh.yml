@@ -5,6 +5,8 @@ on:
     branches: [main]
     paths:
       - 'scripts/build_data.py'
+      - 'scripts/strategy_rules.py'
+      - 'tests/test_strategy_rules.py'
       - 'scripts/enrich_research.py'
       - 'tests/test_research.py'
       - 'tests/test_tracker.py'

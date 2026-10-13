@@ -47,12 +47,12 @@ def snapshot():
         if c not in x: x[c] = float("nan")
         x[c] = pd.to_numeric(x[c], errors="coerce")
     if "industry" not in x: x["industry"] = "未知"
-    x["code"] = x["code"].astype(str).str.replace(r"\\.0$", "", regex=True).str.zfill(6)
+    x["code"] = x["code"].astype(str).str.replace(r"\.0$", "", regex=True).str.zfill(6)
     x["name"] = x["name"].astype(str)
     x["price"] = pd.to_numeric(x["price"], errors="coerce")
     x["amount"] = pd.to_numeric(x["amount"], errors="coerce")
     raw_count = len(x)
-    x = x[x.code.str.fullmatch(r"\\d{6}") & x.price.gt(0) & x.amount.ge(0)]
+    x = x[x.code.str.fullmatch(r"\d{6}") & x.price.gt(0) & x.amount.ge(0)]
     dupes = int(x.code.duplicated().sum())
     x = x.drop_duplicates("code").reset_index(drop=True)
     if len(x) < 1200:

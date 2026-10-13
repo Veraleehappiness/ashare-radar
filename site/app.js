@@ -2,7 +2,7 @@
 'use strict';
 const emptyMarket={status:'pending',schema:2,generated_at:null,quote_collected_at:null,stocks:[],candidates:[],sectors:[],histories:{},backtests:{},coverage:{},quality:{},warnings:[]};
 const KEY_WATCH='ashare-radar-watch-v2', KEY_SIM='ashare-radar-paper-v2';
-const pageTitles={overview:'市场总览',screener:'全市场选股',watchlist:'我的自选',backtest:'策略回测',simulator:'模拟账户',quality:'数据质量',assistant:'ChatGPT 研究'};
+const pageTitles={overview:'市场总览',screener:'全市场选股',strategies:'量化策略库',watchlist:'我的自选',backtest:'策略回测',simulator:'模拟账户',quality:'数据质量',assistant:'ChatGPT 研究'};
 const state={page:'overview',market:emptyMarket,watch:loadJson(KEY_WATCH,[]),paper:loadJson(KEY_SIM,{initial:100000,cash:100000,trades:[]}),
   search:'',filter:'all',selected:null,backtest:null,stockLimit:60,tab:'candidates'};
 function loadJson(key,fallback){try{const x=JSON.parse(localStorage.getItem(key));return x===null?fallback:x}catch{return fallback}}
@@ -96,7 +96,18 @@ ${panel('当前持仓',pos.length?`<div class="table-wrap"><table><thead><tr><th
 function quality(){const d=state.market,co=c(),q=d.quality||{},warnings=d.warnings||[];return `${title('DATA OBSERVABILITY','行情质量与系统状态','知道数据来自哪里、覆盖多少股票、更新于什么时候，比漂亮的分数更重要。',`<button class="btn primary" id="reload">↻ 重新加载快照</button>`)}${marketWarning()}<div class="metrics">${metric('有效快照行数',n(q.rows||co.market_count,0),'最低质量门槛 ≥1200')}${metric('有效价格占比',q.valid_price_ratio==null?'—':n(q.valid_price_ratio,1)+'%','仅统计有效快照')}${metric('重复股票代码',q.duplicate_codes==null?'—':n(q.duplicate_codes,0),'数据唯一性指标')}${metric('量比缺失率',q.missing_volume_ratio_pct==null?'—':n(q.missing_volume_ratio_pct,1)+'%','无法计算时不插入虚构数值')}</div>
 <div class="two-cols">${panel('数据来源与时间',`<div class="rule-list"><div class="rule"><b>全市场：</b>${esc(d.quote_provider||'未接入')}</div><div class="rule"><b>行情类别：</b>${esc(d.quote_kind||'未标注')}</div><div class="rule"><b>采集时间：</b>${stamp(d.generated_at)}</div><div class="rule"><b>历史 K 线：</b>${esc(d.history_kind||'未标注')}</div><div class="rule"><b>实际历史核验：</b>${n(co.history_succeeded,0)}/${n(co.history_attempted,0)} 只股票</div></div>`)}${panel('执行异常与限制',warnings.length?`<div class="rule-list">${warnings.slice(0,9).map(e=>`<div class="rule">${esc(e)}</div>`).join('')}</div><p class="hint">仅显示前 9 条，完整异常记录在 JSON 内。</p>`:empty('无记录的异常','这不代表数据正确；跨源质量核对仍须独立验证。'))}</div>
 <div style="margin-top:19px">${panel('部署维护说明',`<div class="rule-list"><div class="rule"><b>Netlify：</b>仅托管静态网页。免费信用额度方案支持 Private（仅所有者 Netlify 登录）。必须在控制台确认生产环境权限已开启。</div><div class="rule"><b>GitHub Actions：</b>周一至周五北京时间 16:45 和 19:20 计划运行；只更新 data 分支的纯行情 JSON，不触发 Netlify 主站生产部署。GitHub 定时可能延迟，非自动识别交易日。</div><div class="rule"><b>隐私：</b>自选股与模拟交易保存在浏览器 localStorage；清除浏览器存储会丢失，手机/电脑不自动共享。</div><div class="rule"><b>AI：</b>付费 AI 自动报告未开启。本版本只有程序计算的可解释技术信号，不会假装运行了语言模型。</div><div class="rule"><b>安全：</b>为了让免费静态站读取最新数据，如使用公开 GitHub 仓库，原始数据可被他人访问；绝不能往仓库加入私人持仓、券商密码、AI Key 或飞书 Webhook。</div></div><p class="page-foot">显示问题？按 README 按钮手动触发一次 GitHub Actions，先确认 config.json 已填写 GitHub 公开 data 分支原始 JSON 链接，再核实工作流具有 contents:write 权限。</p>`)}</div>`}
-function render(){notifyNav();const renderers={overview,screener,watchlist,backtest,simulator,quality,assistant:aiPage};$('#content').innerHTML=(renderers[state.page]||overview)()}
+function strategies(){
+  const lib=state.market.strategy_library||{};
+  const rules=Array.isArray(lib.rules)?lib.rules:[];
+  const signals=Array.isArray(lib.signals)?lib.signals:[];
+  const active=rules.filter(r=>r.state==='experimental');
+  const ruleHtml=rules.length?`<div class='rule-list'>${rules.map(r=>`<div class='rule'><b>${esc(r.name)}</b> <span class='muted'>${r.state==='experimental'?'研究规则·已编码':'数据待接入'}</span><div class='hint'>${esc(r.horizon)} · ${esc(r.entry)}</div><div class='hint'>${esc(r.evidence)}</div></div>`).join('')}</div>`:empty('策略库尚无数据','等待包含 strategy_library 的 GitHub 行情任务成功发布。');
+  const signalHtml=signals.length?`<div class='rule-list'>${signals.slice(0,60).map(p=>`<div class='rule'><b>${esc(p.name)} (${esc(p.code)})</b> · ${esc(p.strategy_name)}<div class='hint'>${esc(p.signal_date)} · 研究参考收盘价 ${cash(p.reference_close)} · 20日量比 ${n(p.metrics?.volume_ratio20,2)} · 非买入指令</div></div>`).join('')}</div>`:empty('当前没有符合规则的信号','不得以演示数据补造信号；也不代表所有A股均经过深度扫描。');
+  const count=lib.evaluated_stocks===undefined?'—':n(lib.evaluated_stocks,0);
+  const stats=`<div class='metrics'>${metric('内置规则',rules.length?n(rules.length,0):'—','包含等待数据源的研究方向')}${metric('已编码规则',rules.length?n(active.length,0):'—','不等于已验证盈利')}${metric('K线核验股票',count,'当前只覆盖初筛股票')}${metric('今日触发',lib.signal_count==null?'—':n(lib.signal_count,0),'仅真实交易数据')}</div>`;
+  return title('QUANT STRATEGY LAB','量化策略库','可复现规则和真实信号，独立于交易指令。')+marketWarning()+stats+`<div class='info-banner warn' style='margin-top:18px'>策略均为研究假设，尚无样本外净收益证明。信号在收盘后才确定，不能按该收盘价假定成交。覆盖范围：${esc(lib.scope||'尚无已验证策略结果')}。</div><div style='margin-top:18px'>${panel('规则及数据要求',ruleHtml)}</div><div style='margin-top:18px'>${panel('实际触发信号',signalHtml)}</div>`;
+}
+function render(){notifyNav();const renderers={overview,screener,strategies,watchlist,backtest,simulator,quality,assistant:aiPage};$('#content').innerHTML=(renderers[state.page]||overview)()}
 function addWatch(code){if(!sym(code)){toast('请输入六位股票代码');return}if(!state.watch.includes(code))state.watch.push(code);save(KEY_WATCH,state.watch);toast(`已添加 ${code} · 当前设备本地存储`);render()}
 function simulate(form){const fd=new FormData(form),side=fd.get('side'),code=String(fd.get('code')||'').trim(),qty=Number(fd.get('qty')),price=Number(fd.get('price'));
 if(!sym(code)||!Number.isInteger(qty)||qty<100||qty%100!==0||!Number.isFinite(price)||price<=0){toast('请核对代码、价格及100股整手数量');return}

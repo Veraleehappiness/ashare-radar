@@ -1,3 +1,16 @@
+# AShare Radar V0.6 — 现有 Netlify 原网址发布说明
+
+**当前仓库 `main/site/` 已保存 V0.6 网页代码，不再需要执行「Import existing Netlify site into GitHub」任务。** 原在线站可能仍是 V0.3，除非 Netlify 已连接该仓库并完成最新构建。
+
+**一次性发布：** 在 [Netlify 控制台](https://app.netlify.com/) 打开原有 `playful-kashata-64f33f` 项目；依次进入 `Project configuration → Developer settings → Continuous deployment → Repository → Link repository`，选择 `Veraleehappiness/ashare-radar` 的 `main` 分支。不要创建新站或使用 `Push to new repository`。根目录 `netlify.toml` 已规定 Publish directory 为 `site`，无需 Hugo。
+
+如果界面已连接仓库，在 `Deploys` 中查看最新构建是否为绿色 `Published`，并用无痕窗口打开原网址，核实页脚 `Personal Research V0.6` 及 `量化策略库 / 研究引擎 / 信号追踪` 页面。若未出现，Netlify 还未实际发布新版；不要把 GitHub CI 成功误当成线上成功。
+
+**数据与隐私：** 网页读取 GitHub `data/market.json` 中公开行情。自选股和模拟交易继续存在本地浏览器的既有 key 中，不写入公开仓库。生产网站可能在 Netlify 侧保留之前的配置，部署后仍需独立核查构建日志。
+
+**验证：** GitHub [前端测试](https://github.com/Veraleehappiness/ashare-radar/actions/workflows/site-check.yml)、[市场刷新](https://github.com/Veraleehappiness/ashare-radar/actions/workflows/market-refresh.yml)。回滚可在 Netlify `Deploys` 选择上一个成功发布版本；GitHub 历史代码也可按提交记录恢复。
+
+---
 # AShare Radar — Netlify / GitHub 一次性连接指南
 
 原在线网址：https://playful-kashata-64f33f.netlify.app/

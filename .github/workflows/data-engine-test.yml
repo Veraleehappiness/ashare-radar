@@ -1,0 +1,31 @@
+name: Data Engine Test
+
+on:
+  push:
+    paths:
+      - 'data_engine/**'
+      - 'tests/**'
+      - 'requirements-data.txt'
+  workflow_dispatch:
+
+jobs:
+  test-data-engine:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements-data.txt
+          pip install pytest
+
+      - name: Run data engine tests
+        run: |
+          pytest tests/test_data_engine.py -v

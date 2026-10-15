@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import time
+import queue
+import threading
 import pandas as pd
 
 MIN_VALID_QUOTES = 1200
@@ -32,6 +34,31 @@ def normalize_candidate(frame, provider):
     return raw
 
 
+def bounded_call(fn, timeout_seconds=28):
+    """AKShare spot endpoints sometimes hang without a socket timeout.
+
+    A daemon thread is bounded from the caller's perspective. No data are
+    returned if the source did not complete before the deadline.
+    """
+    mailbox = queue.Queue(maxsize=1)
+
+    def work():
+        try:
+            mailbox.put((True, fn()))
+        except Exception as exc:
+            mailbox.put((False, exc))
+
+    thread = threading.Thread(target=work, daemon=True)
+    thread.start()
+    try:
+        success, payload = mailbox.get(timeout=timeout_seconds)
+    except queue.Empty as exc:
+        raise TimeoutError(f"行情源超时（超过{timeout_seconds}秒）") from exc
+    if not success:
+        raise payload
+    return payload
+
+
 def fetch_quotes(sleep=time.sleep):
     import akshare as ak
     errors = []
@@ -41,7 +68,7 @@ def fetch_quotes(sleep=time.sleep):
     ]:
         for attempt in range(attempts):
             try:
-                return normalize_candidate(fn(), provider), provider
+                return normalize_candidate(bounded_call(fn), provider), provider
             except Exception as exc:
                 errors.append(
                     f"{provider}[{attempt+1}]: {type(exc).__name__}: {str(exc)[:160]}"

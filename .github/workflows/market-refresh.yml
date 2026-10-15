@@ -51,7 +51,7 @@ jobs:
       - name: Run isolated legacy research regression tests
         run: python -m unittest tests.test_prescreen tests.test_strategy_rules tests.test_research tests.test_tracker -v
       - name: Build verified market data
-        run: python scripts/build_data.py --max-history 60 --out "$RUNNER_TEMP/market.json"
+        run: python scripts/build_data.py --max-history 20 --out "$RUNNER_TEMP/market.json"
       - name: Run optional AlphaSift and AKQuant research
         run: python scripts/enrich_research.py --input "$RUNNER_TEMP/market.json"
       - name: Build verifiable forward-signal scorecard

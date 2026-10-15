@@ -1,15 +1,11 @@
-"""Resilient LIVE A-share snapshot discovery. Never silently reuse stale quotes.
-
-The Eastmoney public spot endpoint periodically disconnects on CI runners.
-Try it with bounded retries, then use AKShare's independent Sina snapshot.
-Sina reports share volumes, Eastmoney hand lots: normalize to lots.
-"""
+"""Resilient public A-share spot quotes with strict validation and provenance."""
 from __future__ import annotations
+
 import time
 import pandas as pd
 
 MIN_VALID_QUOTES = 1200
-MUST = {"代码","名称","最新价","成交额"}
+MUST = {"代码", "名称", "最新价", "成交额"}
 
 
 def normalize_candidate(frame, provider):
@@ -20,17 +16,18 @@ def normalize_candidate(frame, provider):
         raw["成交量"] = pd.to_numeric(raw.get("成交量"), errors="coerce") / 100.0
     codes = (raw["代码"].astype(str).str.strip()
              .str.replace(r"^(?:sh|sz|bj)", "", regex=True, case=False)
-             .str.replace(r"\\.0$", "", regex=True).str.zfill(6))
+             .str.replace(r"\.0$", "", regex=True).str.zfill(6))
     raw["代码"] = codes
     prices = pd.to_numeric(raw["最新价"], errors="coerce")
     turnover = pd.to_numeric(raw["成交额"], errors="coerce")
-    eligible = codes.str.fullmatch(r"\d{6}") & prices.gt(0) & turnover.ge(0)
+    good_codes = codes.str.fullmatch(r"\d{6}")
+    eligible = good_codes & prices.gt(0) & turnover.ge(0)
     if eligible.sum() < MIN_VALID_QUOTES:
         raise ValueError(
             f"{provider}: only {int(eligible.sum())} valid snapshots "
-            f"(6digit={int(codes.str.fullmatch(r'\\d{6}').sum())},"
-            f" price>0={int(prices.gt(0).sum())}, amount>=0={int(turnover.ge(0).sum())});"
-            f" first_raw_code={str(frame['代码'].iloc[0])[:30] if len(frame) else 'empty'}"
+            f"(6digit={int(good_codes.sum())}, price>0={int(prices.gt(0).sum())},"
+            f" amount>=0={int(turnover.ge(0).sum())}); "
+            f"first_raw_code={str(frame['代码'].iloc[0])[:30] if len(frame) else 'empty'}"
         )
     return raw
 
@@ -46,7 +43,9 @@ def fetch_quotes(sleep=time.sleep):
             try:
                 return normalize_candidate(fn(), provider), provider
             except Exception as exc:
-                errors.append(f"{provider}[{attempt+1}]: {type(exc).__name__}: {str(exc)[:110]}")
+                errors.append(
+                    f"{provider}[{attempt+1}]: {type(exc).__name__}: {str(exc)[:160]}"
+                )
                 if attempt + 1 < attempts:
                     sleep(2**attempt)
     raise RuntimeError("所有实时行情数据源均不可用；拒绝以旧行情伪装成最新数据。 " + " | ".join(errors))

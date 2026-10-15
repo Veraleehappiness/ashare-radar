@@ -1,31 +1,33 @@
-name: Data Engine Test
-
+name: V0.7 Historical Data Engine Tests
 on:
   push:
+    branches: [main]
     paths:
       - 'data_engine/**'
-      - 'tests/**'
-      - 'requirements-data.txt'
+      - 'tests/test_data_engine.py'
+      - 'tests/test_history_cli.py'
+      - 'scripts/update_history_store.py'
+      - 'requirements-history.txt'
+      - '.github/workflows/data-engine-test.yml'
   workflow_dispatch:
-
+permissions:
+  contents: read
 jobs:
-  test-data-engine:
+  offline-regression:
     runs-on: ubuntu-latest
-
+    timeout-minutes: 12
     steps:
-      - name: Checkout
+      - name: Checkout source
         uses: actions/checkout@v4
-
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements-data.txt
-          pip install pytest
-
-      - name: Run data engine tests
-        run: |
-          pytest tests/test_data_engine.py -v
+          cache: pip
+          cache-dependency-path: requirements-history.txt
+      - name: Install tested data dependencies
+        run: python -m pip install -r requirements-history.txt
+      - name: Validate history engine and CLI without network
+        run: python -m pytest tests/test_data_engine.py tests/test_history_cli.py -v
+      - name: Compile package and CLI
+        run: python -m compileall -q data_engine scripts/update_history_store.py

@@ -18,12 +18,20 @@ def normalize_candidate(frame, provider):
     raw = frame.copy()
     if provider == "AKShare / 新浪":
         raw["成交量"] = pd.to_numeric(raw.get("成交量"), errors="coerce") / 100.0
-    codes = raw["代码"].astype(str).str.replace(r"\.0$", "", regex=True).str.zfill(6)
+    codes = (raw["代码"].astype(str).str.strip()
+             .str.replace(r"^(?:sh|sz|bj)", "", regex=True, case=False)
+             .str.replace(r"\\.0$", "", regex=True).str.zfill(6))
+    raw["代码"] = codes
     prices = pd.to_numeric(raw["最新价"], errors="coerce")
     turnover = pd.to_numeric(raw["成交额"], errors="coerce")
     eligible = codes.str.fullmatch(r"\d{6}") & prices.gt(0) & turnover.ge(0)
     if eligible.sum() < MIN_VALID_QUOTES:
-        raise ValueError(f"{provider}: only {int(eligible.sum())} valid snapshots")
+        raise ValueError(
+            f"{provider}: only {int(eligible.sum())} valid snapshots "
+            f"(6digit={int(codes.str.fullmatch(r'\\d{6}').sum())},"
+            f" price>0={int(prices.gt(0).sum())}, amount>=0={int(turnover.ge(0).sum())});"
+            f" first_raw_code={str(frame['代码'].iloc[0])[:30] if len(frame) else 'empty'}"
+        )
     return raw
 
 

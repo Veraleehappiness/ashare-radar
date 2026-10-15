@@ -1,13 +1,17 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-10-15T15:02:26.984601+08:00",
+  "generated_at": "2026-10-15T15:05:58.865554+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-10-15T15:02:26.107165+08:00",
+  "history_refresh_generated_at": "2026-10-15T15:05:57.546582+08:00",
   "attempted": 100,
-  "evaluated": 60,
+  "evaluated": 94,
   "stale_or_short": [
+    {
+      "code": "001246",
+      "reason": "less than 130 completed daily bars"
+    },
     {
       "code": "301660",
       "reason": "less than 130 completed daily bars"
@@ -26,146 +30,6 @@
     }
   ],
   "missing_or_invalid": [
-    {
-      "code": "603986",
-      "error": "603986 尚无已验证历史日线"
-    },
-    {
-      "code": "600183",
-      "error": "600183 尚无已验证历史日线"
-    },
-    {
-      "code": "601138",
-      "error": "601138 尚无已验证历史日线"
-    },
-    {
-      "code": "603259",
-      "error": "603259 尚无已验证历史日线"
-    },
-    {
-      "code": "600150",
-      "error": "600150 尚无已验证历史日线"
-    },
-    {
-      "code": "601127",
-      "error": "601127 尚无已验证历史日线"
-    },
-    {
-      "code": "603186",
-      "error": "603186 尚无已验证历史日线"
-    },
-    {
-      "code": "600127",
-      "error": "600127 尚无已验证历史日线"
-    },
-    {
-      "code": "601899",
-      "error": "601899 尚无已验证历史日线"
-    },
-    {
-      "code": "601872",
-      "error": "601872 尚无已验证历史日线"
-    },
-    {
-      "code": "600036",
-      "error": "600036 尚无已验证历史日线"
-    },
-    {
-      "code": "600206",
-      "error": "600206 尚无已验证历史日线"
-    },
-    {
-      "code": "600664",
-      "error": "600664 尚无已验证历史日线"
-    },
-    {
-      "code": "600584",
-      "error": "600584 尚无已验证历史日线"
-    },
-    {
-      "code": "601869",
-      "error": "601869 尚无已验证历史日线"
-    },
-    {
-      "code": "600900",
-      "error": "600900 尚无已验证历史日线"
-    },
-    {
-      "code": "601988",
-      "error": "601988 尚无已验证历史日线"
-    },
-    {
-      "code": "002709",
-      "error": "002709 尚无已验证历史日线"
-    },
-    {
-      "code": "002436",
-      "error": "002436 尚无已验证历史日线"
-    },
-    {
-      "code": "000636",
-      "error": "000636 尚无已验证历史日线"
-    },
-    {
-      "code": "002008",
-      "error": "002008 尚无已验证历史日线"
-    },
-    {
-      "code": "000988",
-      "error": "000988 尚无已验证历史日线"
-    },
-    {
-      "code": "002354",
-      "error": "002354 尚无已验证历史日线"
-    },
-    {
-      "code": "002074",
-      "error": "002074 尚无已验证历史日线"
-    },
-    {
-      "code": "001246",
-      "error": "001246 尚无已验证历史日线"
-    },
-    {
-      "code": "002185",
-      "error": "002185 尚无已验证历史日线"
-    },
-    {
-      "code": "000657",
-      "error": "000657 尚无已验证历史日线"
-    },
-    {
-      "code": "300450",
-      "error": "300450 尚无已验证历史日线"
-    },
-    {
-      "code": "300821",
-      "error": "300821 尚无已验证历史日线"
-    },
-    {
-      "code": "300274",
-      "error": "300274 尚无已验证历史日线"
-    },
-    {
-      "code": "300570",
-      "error": "300570 尚无已验证历史日线"
-    },
-    {
-      "code": "300757",
-      "error": "300757 尚无已验证历史日线"
-    },
-    {
-      "code": "300364",
-      "error": "300364 尚无已验证历史日线"
-    },
-    {
-      "code": "688525",
-      "error": "688525 尚无已验证历史日线"
-    },
-    {
-      "code": "688313",
-      "error": "688313 尚无已验证历史日线"
-    },
     {
       "code": "920438",
       "error": "920438 尚无已验证历史日线"
@@ -213,14 +77,54 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 2,
+  "signal_count": 5,
   "signal_count_by_strategy": {
     "bottom_reversal_v1": 0,
     "volume_breakout_v1": 1,
-    "trend_pullback_v1": 1,
-    "short_rebound_v1": 0
+    "trend_pullback_v1": 3,
+    "short_rebound_v1": 1
   },
   "signals": [
+    {
+      "code": "603186",
+      "name": "华正新材",
+      "strategy_id": "short_rebound_v1",
+      "strategy_name": "短期超跌反弹",
+      "signal_date": "2026-10-14",
+      "reference_close": 202.01,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 219.4905,
+        "ma60": 176.1105,
+        "ma120": 159.7569,
+        "volume_ratio20": 0.999,
+        "prior_60d_close_high": 253.99,
+        "observed_120d_to_40d_drawdown_pct": 45.251
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "600127",
+      "name": "金健米业",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-10-14",
+      "reference_close": 14.76,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 14.3485,
+        "ma60": 9.9735,
+        "ma120": 8.0334,
+        "volume_ratio20": 1.056,
+        "prior_60d_close_high": 16.75,
+        "observed_120d_to_40d_drawdown_pct": 65.806
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
     {
       "code": "600026",
       "name": "中远海能",
@@ -257,6 +161,26 @@
         "volume_ratio20": 2.759,
         "prior_60d_close_high": 17.67,
         "observed_120d_to_40d_drawdown_pct": 55.031
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300364",
+      "name": "中文在线",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-10-14",
+      "reference_close": 26.58,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 24.377,
+        "ma60": 23.9247,
+        "ma120": 25.0732,
+        "volume_ratio20": 2.389,
+        "prior_60d_close_high": 28.31,
+        "observed_120d_to_40d_drawdown_pct": 39.718
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

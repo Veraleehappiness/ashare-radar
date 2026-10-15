@@ -4,7 +4,7 @@ const emptyMarket={status:'pending',schema:2,generated_at:null,quote_collected_a
 const KEY_WATCH='ashare-radar-watch-v2', KEY_SIM='ashare-radar-paper-v2';
 const pageTitles={overview:'市场总览',screener:'全市场选股',strategies:'量化策略库',research:'研究引擎',tracking:'信号追踪',watchlist:'我的自选',backtest:'策略回测',simulator:'模拟账户',quality:'数据质量',assistant:'ChatGPT 研究'};
 const state={page:'overview',market:emptyMarket,watch:loadJson(KEY_WATCH,[]),paper:loadJson(KEY_SIM,{initial:100000,cash:100000,trades:[]}),
-  search:'',filter:'all',selected:null,backtest:null,stockLimit:60,tab:'candidates'};
+  search:'',filter:'all',selected:null,backtest:null,stockLimit:60,tab:'candidates',historyPilot:null,historyHealth:null};
 function loadJson(key,fallback){try{const x=JSON.parse(localStorage.getItem(key));return x===null?fallback:x}catch{return fallback}}
 function save(key,val){try{localStorage.setItem(key,JSON.stringify(val))}catch{toast('浏览器存储不可用，修改无法保存')}}
 const $=s=>document.querySelector(s);
@@ -96,6 +96,26 @@ ${panel('当前持仓',pos.length?`<div class="table-wrap"><table><thead><tr><th
 function quality(){const d=state.market,co=c(),q=d.quality||{},warnings=d.warnings||[];return `${title('DATA OBSERVABILITY','行情质量与系统状态','知道数据来自哪里、覆盖多少股票、更新于什么时候，比漂亮的分数更重要。',`<button class="btn primary" id="reload">↻ 重新加载快照</button>`)}${marketWarning()}<div class="metrics">${metric('有效快照行数',n(q.rows||co.market_count,0),'最低质量门槛 ≥1200')}${metric('有效价格占比',q.valid_price_ratio==null?'—':n(q.valid_price_ratio,1)+'%','仅统计有效快照')}${metric('重复股票代码',q.duplicate_codes==null?'—':n(q.duplicate_codes,0),'数据唯一性指标')}${metric('量比缺失率',q.missing_volume_ratio_pct==null?'—':n(q.missing_volume_ratio_pct,1)+'%','无法计算时不插入虚构数值')}</div>
 <div class="two-cols">${panel('数据来源与时间',`<div class="rule-list"><div class="rule"><b>全市场：</b>${esc(d.quote_provider||'未接入')}</div><div class="rule"><b>行情类别：</b>${esc(d.quote_kind||'未标注')}</div><div class="rule"><b>采集时间：</b>${stamp(d.generated_at)}</div><div class="rule"><b>历史 K 线：</b>${esc(d.history_kind||'未标注')}</div><div class="rule"><b>实际历史核验：</b>${n(co.history_succeeded,0)}/${n(co.history_attempted,0)} 只股票</div></div>`)}${panel('执行异常与限制',warnings.length?`<div class="rule-list">${warnings.slice(0,9).map(e=>`<div class="rule">${esc(e)}</div>`).join('')}</div><p class="hint">仅显示前 9 条，完整异常记录在 JSON 内。</p>`:empty('无记录的异常','这不代表数据正确；跨源质量核对仍须独立验证。'))}</div>
 <div style="margin-top:19px">${panel('部署维护说明',`<div class="rule-list"><div class="rule"><b>Netlify：</b>仅托管静态网页。免费信用额度方案支持 Private（仅所有者 Netlify 登录）。必须在控制台确认生产环境权限已开启。</div><div class="rule"><b>GitHub Actions：</b>周一至周五北京时间 16:45 和 19:20 计划运行；只更新 data 分支的纯行情 JSON，不触发 Netlify 主站生产部署。GitHub 定时可能延迟，非自动识别交易日。</div><div class="rule"><b>隐私：</b>自选股与模拟交易保存在浏览器 localStorage；清除浏览器存储会丢失，手机/电脑不自动共享。</div><div class="rule"><b>AI：</b>付费 AI 自动报告未开启。本版本只有程序计算的可解释技术信号，不会假装运行了语言模型。</div><div class="rule"><b>安全：</b>为了让免费静态站读取最新数据，如使用公开 GitHub 仓库，原始数据可被他人访问；绝不能往仓库加入私人持仓、券商密码、AI Key 或飞书 Webhook。</div></div><p class="page-foot">显示问题？按 README 按钮手动触发一次 GitHub Actions，先确认 config.json 已填写 GitHub 公开 data 分支原始 JSON 链接，再核实工作流具有 contents:write 权限。</p>`)}</div>`}
+function historicalPilotPanel(){
+  const p=state.historyPilot, h=state.historyHealth;
+  if(!p || !h){
+    return panel('100只历史数据库 · 四策略研究',empty('历史策略数据未发布或无法连接','100只样本正在进行真实入库；没有结果时不展示模拟信号。'));
+  }
+  const scanned=n(p.evaluated||0,0), total=n(p.attempted||100,0);
+  const counts=p.signal_count_by_strategy||{};
+  const rules=Array.isArray(p.strategy_definitions)?p.strategy_definitions:[];
+  const badges=rules.map(r=>'<span class="tag gray">'+esc(r.name)+'：'+n(counts[r.id]||0,0)+'</span>').join(' ');
+  const results=Array.isArray(p.signals)?p.signals:[];
+  const latest=results.slice(0,40).map(r=>'<div class="rule"><b>'+esc(r.name)+' ('+esc(r.code)+')</b> · '+esc(r.strategy_name)+'<div class="hint">完成日K线 '+esc(r.signal_date)+' · 收盘参考 '+cash(r.reference_close)+' · 非交易建议</div></div>').join('');
+  const status=p.status==='complete'?'样本检查完成':'部分股票数据不足、失败或过期';
+  const info='<div class="info-banner warn"><b>100只样本研究，非A股全市场扫描。</b> '+esc(status)+'；最新数据处理时间 '+stamp(p.generated_at)+'；历史数据成功更新 '+n(h.succeeded,0)+'/100，只对'+scanned+'/'+total+'只股票执行四策略。收盘后信号不能视为当日收盘可交易。</div>';
+  return '<div style="margin-top:20px">'+panel('100只真实历史股票 · 四套策略（Parquet）',
+    '<div class="right-actions" style="margin-bottom:14px;justify-content:flex-start">'+badges+'</div>'+
+    info+'<div class="hint" style="margin-top:15px">本次触发 '+n(p.signal_count,0)+' 条研究信号；质量报告 '+n(h.succeeded,0)+'/100只成功，'+n(h.failed,0)+'只失败。'+
+    '<a href="https://github.com/Veraleehappiness/ashare-radar/blob/history/data_health_100.json" target="_blank" rel="noopener noreferrer">查看可审计结果 ↗</a></div>'+
+    (latest?'<div class="rule-list" style="margin-top:14px">'+latest+'</div>':empty('100只样本暂无策略触发','没有信号并不等于没有研究机会；未检查股票不计入扫描。'))
+  )+'</div>';
+}
 function strategies(){
   const lib=state.market.strategy_library||{};
   const rules=Array.isArray(lib.rules)?lib.rules:[];
@@ -105,7 +125,7 @@ function strategies(){
   const signalHtml=signals.length?`<div class='rule-list'>${signals.slice(0,60).map(p=>`<div class='rule'><b>${esc(p.name)} (${esc(p.code)})</b> · ${esc(p.strategy_name)}<div class='hint'>${esc(p.signal_date)} · 研究参考收盘价 ${cash(p.reference_close)} · 20日量比 ${n(p.metrics?.volume_ratio20,2)} · 非买入指令</div></div>`).join('')}</div>`:empty('当前没有符合规则的信号','不得以演示数据补造信号；也不代表所有A股均经过深度扫描。');
   const count=lib.evaluated_stocks===undefined?'—':n(lib.evaluated_stocks,0);
   const stats=`<div class='metrics'>${metric('内置规则',rules.length?n(rules.length,0):'—','包含等待数据源的研究方向')}${metric('已编码规则',rules.length?n(active.length,0):'—','不等于已验证盈利')}${metric('K线核验股票',count,'当前只覆盖初筛股票')}${metric('今日触发',lib.signal_count==null?'—':n(lib.signal_count,0),'仅真实交易数据')}</div>`;
-  return title('QUANT STRATEGY LAB','量化策略库','可复现规则和真实信号，独立于交易指令。')+marketWarning()+stats+`<div class='info-banner warn' style='margin-top:18px'>策略均为研究假设，尚无样本外净收益证明。信号在收盘后才确定，不能按该收盘价假定成交。覆盖范围：${esc(lib.scope||'尚无已验证策略结果')}。</div><div style='margin-top:18px'>${panel('规则及数据要求',ruleHtml)}</div><div style='margin-top:18px'>${panel('实际触发信号',signalHtml)}</div>`;
+  return title('QUANT STRATEGY LAB','量化策略库','可复现规则和真实信号，独立于交易指令。')+marketWarning()+historicalPilotPanel()+stats+`<div class='info-banner warn' style='margin-top:18px'>策略均为研究假设，尚无样本外净收益证明。信号在收盘后才确定，不能按该收盘价假定成交。覆盖范围：${esc(lib.scope||'尚无已验证策略结果')}。</div><div style='margin-top:18px'>${panel('规则及数据要求',ruleHtml)}</div><div style='margin-top:18px'>${panel('实际触发信号',signalHtml)}</div>`;
 }
 function research(){
   const d=state.market, a=d.alphasift||{}, bk=d.research_backtests||{}, studies=d.backtests||{};
@@ -138,6 +158,28 @@ async function copyPrompt(){
  catch(e){toast('自动复制被浏览器限制，请按 Ctrl+C 或长按复制');}
 }
 function selectSymbol(code){state.selected=code;render();setTimeout(()=>$('#detail')?.scrollIntoView({behavior:'smooth',block:'start'}),20)}
+async function fetchPilotData(){
+  try{
+    const response=await fetch('/config.json?t='+Date.now(),{cache:'no-store'});
+    const config=response.ok?await response.json():{};
+    const load=async (address)=>{
+      if(!address||!/^https:\/\//.test(address))return null;
+      const request=await fetch(address+(address.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});
+      if(!request.ok)throw Error('HTTP '+request.status);
+      return request.json();
+    };
+    const [result,health]=await Promise.all([load(config.history_strategy_url),load(config.history_health_url)]);
+    if(!result||!health||result.schema!==1||health.schema!==1)throw Error('100股票审计版本不兼容');
+    state.historyPilot=result;
+    state.historyHealth=health;
+    if(state.page==='strategies'||state.page==='quality')render();
+  }catch(err){
+    state.historyPilot=null;
+    state.historyHealth=null;
+    if(state.page==='strategies'||state.page==='quality')render();
+    console.warn('100-stock history feed unavailable:',err.message);
+  }
+}
 async function fetchData(){try{const settingsResponse=await fetch('/config.json?t='+Date.now(),{cache:'no-store'});const settings=settingsResponse.ok?await settingsResponse.json():{};const source=(settings.market_data_url&&/^https:\/\//.test(settings.market_data_url))?settings.market_data_url:'/data/market.json';const r=await fetch(source+(source.includes('?')?'&':'?')+'t='+Date.now(),{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const d=await r.json();if(d.schema!==2 || !Array.isArray(d.stocks) || !Array.isArray(d.candidates))throw Error('数据版本或格式不兼容');state.market=d;render();}catch(err){state.market={...emptyMarket,warnings:['静态 JSON 请求失败：'+err.message]};render();toast('暂时无法加载行情数据')}}
 function handlerClick(e){const page=e.target.closest('[data-page]');if(page){setPage(page.dataset.page);return}const add=e.target.closest('[data-add]');if(add){e.stopPropagation();addWatch(add.dataset.add);return}const del=e.target.closest('[data-remove]');if(del){state.watch=state.watch.filter(c=>c!==del.dataset.remove);save(KEY_WATCH,state.watch);render();return}
 const aiButton=e.target.closest('[data-chatgpt]');if(aiButton){state.selected=aiButton.dataset.chatgpt;setPage('assistant');return}
@@ -145,11 +187,11 @@ const aiButton=e.target.closest('[data-chatgpt]');if(aiButton){state.selected=ai
  if(e.target.closest('#generateAIPrompt')){const code=String($('#aiCode')?.value||'').trim();if(!sym(code)){toast('请输入有效的六位 A 股代码');return}state.selected=code;render();toast('研究提示词已生成');return}
  if(e.target.closest('#copyAIPrompt')){copyPrompt();return}
  const stock=e.target.closest('[data-stock]');if(stock){selectSymbol(stock.dataset.stock);return}const bt=e.target.closest('[data-backtest]');if(bt){state.backtest=bt.dataset.backtest;setPage('backtest');return}const tab=e.target.closest('[data-tab]');if(tab){state.tab=tab.dataset.tab;state.stockLimit=60;render();return}
-if(e.target.closest('#closeDetail')){state.selected=null;render();return}if(e.target.closest('#reload')){toast('重新加载上一次的定时计算结果');fetchData();return}if(e.target.closest('#showMore')){state.stockLimit+=60;render();return}if(e.target.closest('#exportPaper')){backup();return}
+if(e.target.closest('#closeDetail')){state.selected=null;render();return}if(e.target.closest('#reload')){toast('重新加载定时研究数据');fetchData();fetchPilotData();return}if(e.target.closest('#showMore')){state.stockLimit+=60;render();return}if(e.target.closest('#exportPaper')){backup();return}
 if(e.target.closest('#resetPaper')){if(window.confirm('这将清空当前浏览器的模拟交易记录，并重置为10万元虚拟本金，确定继续吗？')){state.paper={initial:100000,cash:100000,trades:[]};save(KEY_SIM,state.paper);render()}return}}
 function setup(){document.addEventListener('click',handlerClick);
 document.addEventListener('submit',e=>{if(e.target.id==='addWatch'){e.preventDefault();const code=$('#watchCode').value.trim();addWatch(code)}if(e.target.id==='paperForm'){e.preventDefault();simulate(e.target)}});
 document.addEventListener('input',e=>{if(e.target.id==='query'){state.search=e.target.value;const el=$('#stockTable');if(el)el.innerHTML=table(filteredStocks(),state.tab==='market'?state.stockLimit:20);const count=$('#countText');if(count)count.textContent='共 '+filteredStocks().length+' 条'}});
 document.addEventListener('change',e=>{if(e.target.id==='filter'){state.filter=e.target.value;render()}if(e.target.id==='backSelect'){state.backtest=e.target.value;render()}});
-function clock(){const txt=new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());$('#topTime').textContent='北京时间 '+txt}clock();setInterval(clock,60000);fetchData()}
+function clock(){const txt=new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',hour:'2-digit',minute:'2-digit',hour12:false}).format(new Date());$('#topTime').textContent='北京时间 '+txt}clock();setInterval(clock,60000);fetchData();fetchPilotData()}
 setup();

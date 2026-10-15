@@ -1,0 +1,41 @@
+{
+  "version": "V0.7.1-D",
+  "data_kind": "unadjusted daily A-share OHLCV; third-party historical API",
+  "provider": "AKShare / stock_zh_a_hist",
+  "generated_at": "2026-10-15T09:33:32.879780+08:00",
+  "requested": 2,
+  "succeeded": 2,
+  "failed": 0,
+  "success_rate_pct": 100.0,
+  "new_bars": 1342,
+  "duration_seconds": 3.52,
+  "first_available_date": "2024-01-02",
+  "latest_available_date": "2026-10-14",
+  "result": "PASS",
+  "items": [
+    {
+      "code": "600519",
+      "status": "ok",
+      "rows": 671,
+      "added_rows": 671,
+      "first_date": "2024-01-02",
+      "last_date": "2026-10-14",
+      "fetched_start": "20240101",
+      "updated_file": "/home/runner/work/_temp/ashare-history/600519.parquet",
+      "elapsed_seconds": 2.317,
+      "adjust": "none"
+    },
+    {
+      "code": "000001",
+      "status": "ok",
+      "rows": 671,
+      "added_rows": 671,
+      "first_date": "2024-01-02",
+      "last_date": "2026-10-14",
+      "fetched_start": "20240101",
+      "updated_file": "/home/runner/work/_temp/ashare-history/000001.parquet",
+      "elapsed_seconds": 1.2,
+      "adjust": "none"
+    }
+  ]
+}

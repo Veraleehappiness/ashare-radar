@@ -164,7 +164,10 @@ def build(out: Path, max_history: int):
         except Exception as e:
             warnings.append(f"{code}: {str(e)[:180]}")
     if audited == 0:
-        raise RuntimeError("候选股票历史日线全部获取失败；不发布只有行情快照的假完整报告")
+        # Real, quality-checked broad-market quotes still have standalone value.
+        # Downgrade HISTORICAL scope visibly instead of discarding valid quotes.
+        # The separate 100-stock history pipeline owns auditable strategy data.
+        warnings.append("本次已校验行情快照，但历史K线全部获取失败；仅发布真实报价，不生成任何历史策略信号")
     candidates.sort(key=lambda it: it["score"], reverse=True)
     sectors = []
     if "industry" in market:
@@ -180,14 +183,14 @@ def build(out: Path, max_history: int):
         "quote_collected_at": now.isoformat(),
         "quote_provider": market.attrs.get("quote_provider", "unknown"),
         "quote_kind": "采集时的网页行情快照，非交易所实时直连",
-        "history_kind": "不复权、完整日K线",
+        "history_kind": "不复权、完整日K线" if audited else "本次K线不可用：仅保留真实网页行情快照",
         "coverage": {"market_count": int(len(stocks)),
                      "prescreen_count": int(len(pool)),
                      "history_attempted": int(len(pool)),
                      "history_succeeded": int(audited),
                      "selection": sampling,
                      "signal_count": int(min(20, len(candidates))),
-                     "scope": "全市场快照初筛 + 有限候选日线检查；并非全市场逐股历史回测"},
+                     "scope": "已校验全市场报价快照；深度研究来自独立100只历史库" if not audited else "全市场快照初筛 + 有限候选日线检查；并非全市场逐股历史回测"},
         "quality": {"rows": int(len(stocks)), "raw_rows": market.attrs.get("raw_count"),
                     "discarded_rows": market.attrs.get("discarded"),
                     "duplicate_codes": market.attrs.get("duplicates"),

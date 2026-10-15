@@ -98,6 +98,7 @@ def main():
     p.add_argument("--codes", default="")
     p.add_argument("--pool")
     p.add_argument("--limit",type=int,default=10)
+    p.add_argument("--offset",type=int,default=0)
     p.add_argument("--start",default="20240101")
     p.add_argument("--root",default="database/stocks")
     p.add_argument("--report",default="reports/history_health.json")
@@ -105,7 +106,11 @@ def main():
     args=p.parse_args()
     if args.limit<1 or args.limit>100:
         p.error("--limit 必须在 1..100，规模扩大前先验收批处理")
-    stocks=parse_codes(args.codes,args.pool)[:args.limit]
+    if args.offset < 0:
+        p.error("--offset 不能为负")
+    stocks=parse_codes(args.codes,args.pool)[args.offset:args.offset+args.limit]
+    if not stocks:
+        p.error("股票批次为空；拒绝发布空白历史数据报告")
     report=run(stocks,Path(args.root),args.start,Path(args.report),args.retries)
     raise SystemExit(0 if report["result"]=="PASS" else 1)
 

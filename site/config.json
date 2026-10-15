@@ -1,4 +1,6 @@
 {
   "market_data_url": "https://raw.githubusercontent.com/Veraleehappiness/ashare-radar/data/market.json",
-  "notes": "Public GitHub market-only data; personal watchlists remain device-local."
+  "notes": "Public GitHub market-only data; personal watchlists remain device-local.",
+  "history_strategy_url": "https://raw.githubusercontent.com/Veraleehappiness/ashare-radar/history/strategy_100.json",
+  "history_health_url": "https://raw.githubusercontent.com/Veraleehappiness/ashare-radar/history/data_health_100.json"
 }

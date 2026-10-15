@@ -4,6 +4,11 @@ on:
     branches: [main]
     paths:
       - '.github/workflows/history-100.yml'
+      - 'data_engine/**'
+      - 'scripts/stock_pool_100.py'
+      - 'scripts/update_history_store.py'
+      - 'scripts/scan_historical_100.py'
+      - 'scripts/merge_history_reports.py'
   workflow_dispatch:
   schedule:
     # 17:25 China weekdays (09:25 UTC); GitHub may start later

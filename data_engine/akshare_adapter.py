@@ -1,8 +1,13 @@
 """AKShare A-share daily OHLCV adapter. No mocked data in production."""
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 import pandas as pd
+
+def _china_now() -> datetime:
+    return datetime.now(ZoneInfo("Asia/Shanghai"))
+
 from .validator import normalize_history, validate_code
 
 MAP = {
@@ -44,4 +49,10 @@ def get_daily_history(
         # A valid absence of new trades (holiday/suspension). The caller may only
         # accept this when a previously verified history file already exists.
         return pd.DataFrame(columns=["date", "open", "high", "low", "close", "volume", "amount"])
-    return normalize_history(raw.rename(columns=MAP))
+    bars = normalize_history(raw.rename(columns=MAP))
+    now = _china_now()
+    # The AKShare endpoint may include TODAY's live/incomplete daily candle.
+    # Never label it as a final EOD historical bar before 15:15 China time.
+    if (now.hour, now.minute) < (15, 15):
+        bars = bars[bars.date.dt.date < now.date()].reset_index(drop=True)
+    return bars

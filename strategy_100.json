@@ -1,0 +1,266 @@
+{
+  "schema": 1,
+  "status": "partial",
+  "generated_at": "2026-10-15T15:02:26.984601+08:00",
+  "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
+  "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
+  "history_refresh_generated_at": "2026-10-15T15:02:26.107165+08:00",
+  "attempted": 100,
+  "evaluated": 60,
+  "stale_or_short": [
+    {
+      "code": "301660",
+      "reason": "less than 130 completed daily bars"
+    },
+    {
+      "code": "688825",
+      "reason": "less than 130 completed daily bars"
+    },
+    {
+      "code": "688808",
+      "reason": "less than 130 completed daily bars"
+    },
+    {
+      "code": "920157",
+      "reason": "less than 130 completed daily bars"
+    }
+  ],
+  "missing_or_invalid": [
+    {
+      "code": "603986",
+      "error": "603986 尚无已验证历史日线"
+    },
+    {
+      "code": "600183",
+      "error": "600183 尚无已验证历史日线"
+    },
+    {
+      "code": "601138",
+      "error": "601138 尚无已验证历史日线"
+    },
+    {
+      "code": "603259",
+      "error": "603259 尚无已验证历史日线"
+    },
+    {
+      "code": "600150",
+      "error": "600150 尚无已验证历史日线"
+    },
+    {
+      "code": "601127",
+      "error": "601127 尚无已验证历史日线"
+    },
+    {
+      "code": "603186",
+      "error": "603186 尚无已验证历史日线"
+    },
+    {
+      "code": "600127",
+      "error": "600127 尚无已验证历史日线"
+    },
+    {
+      "code": "601899",
+      "error": "601899 尚无已验证历史日线"
+    },
+    {
+      "code": "601872",
+      "error": "601872 尚无已验证历史日线"
+    },
+    {
+      "code": "600036",
+      "error": "600036 尚无已验证历史日线"
+    },
+    {
+      "code": "600206",
+      "error": "600206 尚无已验证历史日线"
+    },
+    {
+      "code": "600664",
+      "error": "600664 尚无已验证历史日线"
+    },
+    {
+      "code": "600584",
+      "error": "600584 尚无已验证历史日线"
+    },
+    {
+      "code": "601869",
+      "error": "601869 尚无已验证历史日线"
+    },
+    {
+      "code": "600900",
+      "error": "600900 尚无已验证历史日线"
+    },
+    {
+      "code": "601988",
+      "error": "601988 尚无已验证历史日线"
+    },
+    {
+      "code": "002709",
+      "error": "002709 尚无已验证历史日线"
+    },
+    {
+      "code": "002436",
+      "error": "002436 尚无已验证历史日线"
+    },
+    {
+      "code": "000636",
+      "error": "000636 尚无已验证历史日线"
+    },
+    {
+      "code": "002008",
+      "error": "002008 尚无已验证历史日线"
+    },
+    {
+      "code": "000988",
+      "error": "000988 尚无已验证历史日线"
+    },
+    {
+      "code": "002354",
+      "error": "002354 尚无已验证历史日线"
+    },
+    {
+      "code": "002074",
+      "error": "002074 尚无已验证历史日线"
+    },
+    {
+      "code": "001246",
+      "error": "001246 尚无已验证历史日线"
+    },
+    {
+      "code": "002185",
+      "error": "002185 尚无已验证历史日线"
+    },
+    {
+      "code": "000657",
+      "error": "000657 尚无已验证历史日线"
+    },
+    {
+      "code": "300450",
+      "error": "300450 尚无已验证历史日线"
+    },
+    {
+      "code": "300821",
+      "error": "300821 尚无已验证历史日线"
+    },
+    {
+      "code": "300274",
+      "error": "300274 尚无已验证历史日线"
+    },
+    {
+      "code": "300570",
+      "error": "300570 尚无已验证历史日线"
+    },
+    {
+      "code": "300757",
+      "error": "300757 尚无已验证历史日线"
+    },
+    {
+      "code": "300364",
+      "error": "300364 尚无已验证历史日线"
+    },
+    {
+      "code": "688525",
+      "error": "688525 尚无已验证历史日线"
+    },
+    {
+      "code": "688313",
+      "error": "688313 尚无已验证历史日线"
+    },
+    {
+      "code": "920438",
+      "error": "920438 尚无已验证历史日线"
+    }
+  ],
+  "strategy_definitions": [
+    {
+      "id": "bottom_reversal_v1",
+      "name": "底部反转",
+      "state": "experimental",
+      "horizon": "20-120个交易日（研究假设）",
+      "entry": "过去120日高点至近40日低点回撤≥22%；近10日低点不创新低；重新站上MA20；当日量≥前20日均量1.2倍且收涨",
+      "exit_hypothesis": "跌破MA20或触发另行回测的风险预算止损",
+      "evidence": "均值回归/底部修复研究假设，尚未经本平台样本外验证",
+      "required_data": "至少130根已完成日K线"
+    },
+    {
+      "id": "volume_breakout_v1",
+      "name": "趋势放量突破",
+      "state": "experimental",
+      "horizon": "20-80个交易日（研究假设）",
+      "entry": "当日收盘高于此前60日收盘最高值；MA20>MA60；当日成交量≥前20日均量1.5倍",
+      "exit_hypothesis": "跌破MA20或波动率止损；需模拟次日可成交价格",
+      "evidence": "趋势/动量文献存在跨市场证据，但不能推论本A股参数组合可盈利",
+      "required_data": "至少130根已完成日K线"
+    },
+    {
+      "id": "trend_pullback_v1",
+      "name": "趋势回踩修复",
+      "state": "experimental",
+      "horizon": "20-80个交易日（研究假设）",
+      "entry": "MA20>MA60；前3日至少有一日回踩MA20附近；今日收盘重新站上MA20且收涨",
+      "exit_hypothesis": "跌破MA60或失去上升趋势结构",
+      "evidence": "顺势低换手的可检验规则，目前无已证实的净收益优势",
+      "required_data": "至少130根已完成日K线"
+    },
+    {
+      "id": "short_rebound_v1",
+      "name": "短期超跌反弹",
+      "state": "experimental",
+      "horizon": "5-20个交易日（研究假设，需考虑T+1）",
+      "entry": "截至昨日的前5日累计回撤为7%-14%；今日收涨至少1%；价格没有远低于MA120",
+      "exit_hypothesis": "单独验证3/5/10/20个交易日离场与波动风险",
+      "evidence": "A股短期反转研究存在市场/样本依赖，容易受到流动性和冲击成本影响",
+      "required_data": "至少130根已完成日K线"
+    }
+  ],
+  "signal_count": 2,
+  "signal_count_by_strategy": {
+    "bottom_reversal_v1": 0,
+    "volume_breakout_v1": 1,
+    "trend_pullback_v1": 1,
+    "short_rebound_v1": 0
+  },
+  "signals": [
+    {
+      "code": "600026",
+      "name": "中远海能",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-10-14",
+      "reference_close": 23.25,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 21.675,
+        "ma60": 18.8567,
+        "ma120": 19.3374,
+        "volume_ratio20": 1.113,
+        "prior_60d_close_high": 23.49,
+        "observed_120d_to_40d_drawdown_pct": 32.013
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "002242",
+      "name": "九阳股份",
+      "strategy_id": "volume_breakout_v1",
+      "strategy_name": "趋势放量突破",
+      "signal_date": "2026-10-14",
+      "reference_close": 17.69,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 11.372,
+        "ma60": 9.6062,
+        "ma120": 9.4817,
+        "volume_ratio20": 2.759,
+        "prior_60d_close_high": 17.67,
+        "observed_120d_to_40d_drawdown_pct": 55.031
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    }
+  ],
+  "performance_evidence": "not tested — signals are hypotheses only"
+}

@@ -6,6 +6,11 @@ on:
       - 'data_engine/**'
       - 'tests/test_data_engine.py'
       - 'tests/test_history_cli.py'
+      - 'tests/test_history_100.py'
+      - 'scripts/stock_pool_100.py'
+      - 'scripts/quote_recovery.py'
+      - 'scripts/scan_historical_100.py'
+      - 'scripts/merge_history_reports.py'
       - 'scripts/update_history_store.py'
       - 'requirements-history.txt'
       - '.github/workflows/data-engine-test.yml'
@@ -28,6 +33,6 @@ jobs:
       - name: Install tested data dependencies
         run: python -m pip install -r requirements-history.txt
       - name: Validate history engine and CLI without network
-        run: python -m pytest tests/test_data_engine.py tests/test_history_cli.py -v
+        run: python -m pytest tests/test_data_engine.py tests/test_history_cli.py tests/test_history_100.py -v
       - name: Compile package and CLI
-        run: python -m compileall -q data_engine scripts/update_history_store.py
+        run: python -m compileall -q data_engine scripts/update_history_store.py scripts/stock_pool_100.py scripts/scan_historical_100.py scripts/quote_recovery.py scripts/merge_history_reports.py

@@ -17,9 +17,9 @@ function stamp(v){if(!v)return '尚无有效数据';const d=new Date(v);return N
 function dateCN(v){if(!v)return '—';const d=new Date(v);return new Intl.DateTimeFormat('zh-CN',{timeZone:'Asia/Shanghai',dateStyle:'medium'}).format(d)}
 function dayCN(v=new Date()){const p=new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Shanghai',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(v);const m=Object.fromEntries(p.map(x=>[x.type,x.value]));return `${m.year}-${m.month}-${m.day}`}
 function ageHours(){const d=Date.parse(state.market.generated_at||'');return Number.isFinite(d)?(Date.now()-d)/36e5:Infinity}
-function stale(){return ageHours()>72}
+function stale(){return ageHours()>30}
 function ok(){return state.market.status==='ok' && !!state.market.generated_at && state.market.stocks.length>0}
-function statusBadge(){return ok()?stale()?'<span class="tag warn">数据超过72小时</span>':'<span class="tag">已连接历史行情快照</span>':'<span class="tag warn">等待首次真实行情更新</span>'}
+function statusBadge(){return ok()?stale()?'<span class="tag warn">数据超过30小时</span>':'<span class="tag">已连接历史行情快照</span>':'<span class="tag warn">等待首次真实行情更新</span>'}
 function c(){return state.market.coverage||{}}
 function quote(code){return (state.market.stocks||[]).find(s=>s.code===code)}
 function sym(code){return /^\d{6}$/.test(code)}

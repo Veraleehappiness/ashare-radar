@@ -99,3 +99,11 @@ def test_all_four_strategies_present_in_real_store_scanner(tmp_path):
     assert report["attempted"]==100
     assert set(report["signal_count_by_strategy"])=={s["id"] for s in active}
     assert report["status"]=="complete"
+
+
+def test_quote_api_hang_has_bounded_deadline():
+    from threading import Event
+    from scripts.quote_recovery import bounded_call
+    assert bounded_call(lambda: 13, timeout_seconds=1)==13
+    with pytest.raises(TimeoutError):
+        bounded_call(lambda: Event().wait(0.08), timeout_seconds=0.01)

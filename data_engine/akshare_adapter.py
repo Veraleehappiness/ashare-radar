@@ -40,4 +40,8 @@ def get_daily_history(
     )
     if raw is None or not isinstance(raw, pd.DataFrame):
         raise RuntimeError(f"AKShare 返回数据无效: {code}")
+    if raw.empty:
+        # A valid absence of new trades (holiday/suspension). The caller may only
+        # accept this when a previously verified history file already exists.
+        return pd.DataFrame(columns=["date", "open", "high", "low", "close", "volume", "amount"])
     return normalize_history(raw.rename(columns=MAP))

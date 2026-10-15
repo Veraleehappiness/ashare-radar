@@ -143,3 +143,24 @@ def test_no_bars_preserves_previous_file(tmp_path):
         result = update_stock_history("600519", root=tmp_path, retries=0)
     assert result["added_rows"] == 0 and result["updated_file"] is None
     assert path.read_bytes() == previous
+
+
+def test_tencent_backup_normalizes_volume_units_on_eastmoney_disconnection():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    raw = bars(("2026-10-14",), first=10.0)
+    raw["volume"] = [10000]  # Tencent shares, not Eastmoney lots
+    calls = []
+    def tx(**kwargs):
+        calls.append(kwargs)
+        return raw
+    def em(**kwargs):
+        raise ConnectionError("Eastmoney refused socket")
+    fake = SimpleNamespace(stock_zh_a_hist=em, stock_zh_a_hist_tx=tx)
+    with patch.dict(sys.modules, {"akshare": fake}):
+        with patch("data_engine.akshare_adapter._china_now",
+                   return_value=datetime(2026,10,15,14,55,tzinfo=ZoneInfo("Asia/Shanghai"))):
+            result = get_daily_history("600519","20240101","20261015")
+    assert result.attrs["provider"]=="tencent"
+    assert result.volume.iloc[0]==100
+    assert calls[0]["symbol"]=="sh600519"

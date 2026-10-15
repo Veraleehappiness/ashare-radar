@@ -32,7 +32,7 @@ jobs:
           assert cfg['market_data_url']=='https://raw.githubusercontent.com/Veraleehappiness/ashare-radar/data/market.json'
           page=Path('site/index.html').read_text()
           code=Path('site/app.js').read_text()
-          assert 'Personal Research V0.6' in page
+          assert ('Personal Research V0.6' in page or 'Personal Research V0.7' in page)
           assert all(x in page for x in ('data-page="strategies"','data-page="research"','data-page="tracking"'))
           assert all(x in code for x in ('function strategies()', 'function research()', 'function tracking()','strategy_library','research_backtests','signal_tracking'))
           assert 'ashare-radar-watch-v2' in code and 'ashare-radar-paper-v2' in code

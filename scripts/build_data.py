@@ -14,6 +14,7 @@ import pandas as pd
 
 from strategy_rules import STRATEGIES, evaluate_rules
 from prescreen import select_history_pool
+from quote_recovery import fetch_quotes
 
 TZ = ZoneInfo("Asia/Shanghai")
 ROOT = Path(__file__).resolve().parents[1]
@@ -40,8 +41,7 @@ def scalar(x):
     return str(x)
 
 def snapshot():
-    import akshare as ak
-    raw = ak.stock_zh_a_spot_em()
+    raw, provider = fetch_quotes()
     x = raw.rename(columns=COLUMNS).copy()
     mandatory = {"code", "name", "price", "amount"}
     if not mandatory.issubset(x):
@@ -60,6 +60,7 @@ def snapshot():
     x = x.drop_duplicates("code").reset_index(drop=True)
     if len(x) < 1200:
         raise RuntimeError(f"有效股票只有 {len(x)} 只，不满足全市场质量阈值；拒绝发布")
+    x.attrs["quote_provider"] = provider
     x.attrs["raw_count"] = raw_count
     x.attrs["duplicates"] = dupes
     x.attrs["discarded"] = raw_count - len(x)
@@ -177,7 +178,7 @@ def build(out: Path, max_history: int):
     payload = {
         "schema": 2, "status": "ok", "generated_at": now.isoformat(),
         "quote_collected_at": now.isoformat(),
-        "quote_provider": "AKShare / 东方财富公开行情接口",
+        "quote_provider": market.attrs.get("quote_provider", "unknown"),
         "quote_kind": "采集时的网页行情快照，非交易所实时直连",
         "history_kind": "不复权、完整日K线",
         "coverage": {"market_count": int(len(stocks)),

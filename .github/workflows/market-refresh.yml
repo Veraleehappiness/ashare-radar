@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'scripts/build_data.py'
+      - 'scripts/quote_recovery.py'
       - 'scripts/strategy_rules.py'
       - 'scripts/prescreen.py'
       - 'tests/test_prescreen.py'

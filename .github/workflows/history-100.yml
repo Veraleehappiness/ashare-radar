@@ -1,0 +1,207 @@
+name: V0.7 100-Stock History + Four Strategies
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/history-100.yml'
+  workflow_dispatch:
+  schedule:
+    # 17:25 China weekdays (09:25 UTC); GitHub may start later
+    - cron: '25 9 * * 1-5'
+permissions:
+  contents: write
+concurrency:
+  group: ashare-v07-100-history
+  cancel-in-progress: false
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Recover frozen pool or build from verified market snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin history >/dev/null 2>&1; then
+            git fetch origin history:history
+          fi
+          if git show-ref --verify --quiet refs/heads/history && git cat-file -e history:stock_pool_100.json 2>/dev/null; then
+            git show history:stock_pool_100.json > "$RUNNER_TEMP/stock_pool_100.json"
+            echo "Using previous frozen 100-stock pool"
+          else
+            git fetch origin data:data
+            git show data:market.json > "$RUNNER_TEMP/market_source.json"
+            python -m scripts.stock_pool_100 --market "$RUNNER_TEMP/market_source.json" --out "$RUNNER_TEMP/stock_pool_100.json"
+          fi
+          python - <<'PY'
+          import json,os
+          pool=json.load(open(os.path.join(os.environ["RUNNER_TEMP"],"stock_pool_100.json")))
+          assert len(pool["stocks"])==100
+          assert len({x["code"] for x in pool["stocks"]})==100
+          print("Pool validated: 100 symbols, source",pool["source_snapshot_at"])
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: v07-frozen-100-pool
+          path: \${{ runner.temp }}/stock_pool_100.json
+          retention-days: 3
+  shard:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 32
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        part: [0,1,2,3,4]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-history.txt
+      - run: python -m pip install -r requirements-history.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: v07-frozen-100-pool
+          path: \${{ runner.temp }}/batch-input
+      - name: Restore stored historical candles for this shard
+        shell: bash
+        env:
+          SHARD: \${{ matrix.part }}
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/batch/db"
+          if git ls-remote --exit-code --heads origin history >/dev/null 2>&1; then
+            git fetch origin history:history
+            python - <<'PY' > "$RUNNER_TEMP/mycodes.txt"
+          import json,os
+          path=os.path.join(os.environ["RUNNER_TEMP"],"batch-input/stock_pool_100.json")
+          pool=json.load(open(path))
+          shard=int(os.environ["SHARD"])
+          for x in pool["stocks"][shard*20:(shard+1)*20]:
+              print(x["code"])
+          PY
+            while IFS= read -r symbol; do
+              if git cat-file -e "history:history/\${symbol}.parquet" 2>/dev/null; then
+                git show "history:history/\${symbol}.parquet" > "$RUNNER_TEMP/batch/db/\${symbol}.parquet"
+              fi
+            done < "$RUNNER_TEMP/mycodes.txt"
+          fi
+      - name: Download and validate up to 20 REAL historical stocks
+        shell: bash
+        env:
+          SHARD: \${{ matrix.part }}
+        run: |
+          set +e
+          python -m scripts.update_history_store \
+            --pool "$RUNNER_TEMP/batch-input/stock_pool_100.json" \
+            --offset "$((SHARD*20))" --limit 20 --start 20240101 --retries 2 \
+            --root "$RUNNER_TEMP/batch/db" \
+            --report "$RUNNER_TEMP/batch/report-\${SHARD}.json"
+          rc=$?
+          echo "Shard \${SHARD} completed with import return code \${rc}; partial failure will be reported in merge."
+          exit 0
+      - name: Preserve all verified shard files and failure records
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v07-100-shard-\${{ matrix.part }}
+          path: \${{ runner.temp }}/batch/
+          retention-days: 3
+          if-no-files-found: warn
+  publish:
+    needs: [prepare,shard]
+    if: always() && needs.prepare.result == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: requirements-history.txt
+      - run: python -m pip install -r requirements-history.txt
+      - uses: actions/download-artifact@v4
+        with:
+          name: v07-frozen-100-pool
+          path: \${{ runner.temp }}/pool
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: v07-100-shard-*
+          merge-multiple: true
+          path: \${{ runner.temp }}/shards
+      - name: Combine previous verified Parquet with all five shards
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/assembled" "$RUNNER_TEMP/prior"
+          if git ls-remote --exit-code --heads origin history >/dev/null 2>&1; then
+            git fetch origin history:history
+            git archive history history/ | tar -x -C "$RUNNER_TEMP/prior"
+            if compgen -G "$RUNNER_TEMP/prior/history/*.parquet" >/dev/null; then
+              cp "$RUNNER_TEMP"/prior/history/*.parquet "$RUNNER_TEMP/assembled/"
+            fi
+          fi
+          if compgen -G "$RUNNER_TEMP/shards/db/*.parquet" >/dev/null; then
+            cp "$RUNNER_TEMP"/shards/db/*.parquet "$RUNNER_TEMP/assembled/"
+          fi
+          python -m scripts.merge_history_reports \
+            --pool "$RUNNER_TEMP/pool/stock_pool_100.json" \
+            --reports-dir "$RUNNER_TEMP/shards" --out "$RUNNER_TEMP/history-health.json"
+          python -m scripts.scan_historical_100 \
+            --pool "$RUNNER_TEMP/pool/stock_pool_100.json" \
+            --root "$RUNNER_TEMP/assembled" --health "$RUNNER_TEMP/history-health.json" \
+            --out "$RUNNER_TEMP/strategy_100.json"
+      - name: Publish fixed pool, persistent history, four strategies and audited quality
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          if git show-ref --verify --quiet refs/heads/history; then
+            git switch history
+          else
+            git switch --orphan history
+            git rm -rf . >/dev/null 2>&1 || true
+          fi
+          mkdir -p history
+          cp "$RUNNER_TEMP"/assembled/*.parquet history/
+          cp "$RUNNER_TEMP/pool/stock_pool_100.json" stock_pool_100.json
+          cp "$RUNNER_TEMP/history-health.json" data_health_100.json
+          cp "$RUNNER_TEMP/strategy_100.json" strategy_100.json
+          git add -f history/*.parquet stock_pool_100.json data_health_100.json strategy_100.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'history: verified 100-stock sample and four-strategy daily signals'
+            git push origin history
+          fi
+      - name: Upload combined results for independent inspection
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: v07-100-combined-report
+          path: |
+            \${{ runner.temp }}/history-health.json
+            \${{ runner.temp }}/strategy_100.json
+          retention-days: 8
+      - name: Fail visibly if too few real updates worked
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os,json
+          report=json.load(open(os.path.join(os.environ["RUNNER_TEMP"],"history-health.json")))
+          success=report["succeeded"]
+          print(f"Successfully refreshed {success}/100; details in history branch")
+          if success < 90:
+              raise SystemExit("Insufficient data refresh success (<90%): investigate AKShare before scaling")
+          PY

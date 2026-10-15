@@ -1,6 +1,6 @@
 # V0.7 Historical Data Engine — Real A-Share Pilot
 
-This is working historical database code, not a mockup. Current persistent pilot covers **two** real stocks (600519 and 000001), not 100/500/5000.
+This is working historical database code, not a mockup. Current persistent **V0.7 pilot targets 100 real A-share stocks**, not the full 5000+ market. The October 15 verification imported 99/100 stocks, with 94 valid symbols evaluated by four experimental strategies. The original 2-stock smoke task remains manual-only.
 
 ## Code and commands
 
@@ -38,3 +38,12 @@ Unit tests: python -m pytest tests/test_data_engine.py tests/test_history_cli.py
 - Historical raw unadjusted OHLCV is not an executable-return series. Dividends, splits, corporate actions, delistings and exchange trading restrictions must be modeled separately.
 - Never treat intraday partial daily candles as finalized close or report strategy profitability from these tests.
 - Public GitHub history branch is a transitional small pilot store. A scaled 5,000-stock system needs partitioning and suitable database/object storage, and review of data redistribution rights.
+
+
+## 100-stock acceptance: 2026-10-15 Beijing time
+
+- [100-stock actual Actions execution](https://github.com/Veraleehappiness/ashare-radar/actions/runs/38696025427): passed overall threshold (99/100 successful updates; one failure 920438), 22,776 newly added daily bars across this incremental run. Latest completed session 2026-10-14.
+- [100-stock health JSON](https://github.com/Veraleehappiness/ashare-radar/blob/history/data_health_100.json) records all failures and exact per-stock providers.
+- [100-stock actual strategy JSON](https://github.com/Veraleehappiness/ashare-radar/blob/history/strategy_100.json): 94/100 stocks eligible for evaluation, 5 experimental hypotheses triggered (1 breakout, 3 trend pullbacks, 1 short rebound, 0 bottom reversals). **These are not returns or investment advice.**
+- Five parallel 20-stock shards in `.github/workflows/history-100.yml`; fixed pool and Parquet stored on `history` branch. New signal panel in existing Netlify front-end (Strategies page) fetches data independently from the older market snapshot `data` branch.
+- Legacy full-market quotes still require independent availability of Eastmoney or Sina. History 100 success does not prove real-time full-market quotes have recovered; the site will flag stale market snapshot appropriately.

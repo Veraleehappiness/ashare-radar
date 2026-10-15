@@ -54,6 +54,12 @@ def test_snapshot_retry_and_sina_volume_in_lots():
     assert east["tries"]==3
     assert provider=="AKShare / 新浪"
     assert frame.iloc[0]["成交量"]==100  # 10,000 shares become 100 lots
+    rows["代码"] = ["sh"+f"{i:06d}" for i in range(1500)]
+    with patch.dict(sys.modules,{"akshare":FakeAK}):
+        prefixed, source=fetch_quotes(sleep=lambda _:None)
+    assert source=="AKShare / 新浪"
+    assert prefixed.iloc[0]["代码"]=="000000"
+
 
 
 def test_all_quote_sources_down_not_silent_success():

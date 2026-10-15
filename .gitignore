@@ -1,0 +1,10 @@
+# V0.7 local Parquet and generated reports do not belong in the public source branch.
+database/
+reports/history_health.json
+reports/history_import_*.json
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.env
+.env.*

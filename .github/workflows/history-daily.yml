@@ -5,9 +5,8 @@ on:
     paths:
       - '.github/workflows/history-daily.yml'
   workflow_dispatch:
-  schedule:
-    # 17:20 Asia/Shanghai (09:20 UTC), weekday; may start late on GitHub-hosted runners.
-    - cron: '20 9 * * 1-5'
+  # Deprecated two-stock pilot: retained for explicit manual regression only.
+  # The frozen 100-stock workflow owns the scheduled history branch updates.
 permissions:
   contents: write
 concurrency:

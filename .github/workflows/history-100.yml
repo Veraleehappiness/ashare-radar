@@ -46,7 +46,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: v07-frozen-100-pool
-          path: \${{ runner.temp }}/stock_pool_100.json
+          path: ${{ runner.temp }}/stock_pool_100.json
           retention-days: 3
   shard:
     needs: prepare
@@ -70,11 +70,11 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: v07-frozen-100-pool
-          path: \${{ runner.temp }}/batch-input
+          path: ${{ runner.temp }}/batch-input
       - name: Restore stored historical candles for this shard
         shell: bash
         env:
-          SHARD: \${{ matrix.part }}
+          SHARD: ${{ matrix.part }}
         run: |
           set -euo pipefail
           mkdir -p "$RUNNER_TEMP/batch/db"
@@ -89,31 +89,31 @@ jobs:
               print(x["code"])
           PY
             while IFS= read -r symbol; do
-              if git cat-file -e "history:history/\${symbol}.parquet" 2>/dev/null; then
-                git show "history:history/\${symbol}.parquet" > "$RUNNER_TEMP/batch/db/\${symbol}.parquet"
+              if git cat-file -e "history:history/${symbol}.parquet" 2>/dev/null; then
+                git show "history:history/${symbol}.parquet" > "$RUNNER_TEMP/batch/db/${symbol}.parquet"
               fi
             done < "$RUNNER_TEMP/mycodes.txt"
           fi
       - name: Download and validate up to 20 REAL historical stocks
         shell: bash
         env:
-          SHARD: \${{ matrix.part }}
+          SHARD: ${{ matrix.part }}
         run: |
           set +e
           python -m scripts.update_history_store \
             --pool "$RUNNER_TEMP/batch-input/stock_pool_100.json" \
             --offset "$((SHARD*20))" --limit 20 --start 20240101 --retries 2 \
             --root "$RUNNER_TEMP/batch/db" \
-            --report "$RUNNER_TEMP/batch/report-\${SHARD}.json"
+            --report "$RUNNER_TEMP/batch/report-${SHARD}.json"
           rc=$?
-          echo "Shard \${SHARD} completed with import return code \${rc}; partial failure will be reported in merge."
+          echo "Shard ${SHARD} completed with import return code ${rc}; partial failure will be reported in merge."
           exit 0
       - name: Preserve all verified shard files and failure records
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: v07-100-shard-\${{ matrix.part }}
-          path: \${{ runner.temp }}/batch/
+          name: v07-100-shard-${{ matrix.part }}
+          path: ${{ runner.temp }}/batch/
           retention-days: 3
           if-no-files-found: warn
   publish:
@@ -135,12 +135,12 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: v07-frozen-100-pool
-          path: \${{ runner.temp }}/pool
+          path: ${{ runner.temp }}/pool
       - uses: actions/download-artifact@v4
         with:
           pattern: v07-100-shard-*
           merge-multiple: true
-          path: \${{ runner.temp }}/shards
+          path: ${{ runner.temp }}/shards
       - name: Combine previous verified Parquet with all five shards
         shell: bash
         run: |
@@ -191,8 +191,8 @@ jobs:
         with:
           name: v07-100-combined-report
           path: |
-            \${{ runner.temp }}/history-health.json
-            \${{ runner.temp }}/strategy_100.json
+            ${{ runner.temp }}/history-health.json
+            ${{ runner.temp }}/strategy_100.json
           retention-days: 8
       - name: Fail visibly if too few real updates worked
         shell: bash

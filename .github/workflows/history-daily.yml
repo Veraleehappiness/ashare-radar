@@ -53,6 +53,19 @@ jobs:
             --root "$RUNNER_TEMP/ashare-history" \
             --report "$RUNNER_TEMP/history-health.json" \
             --retries 2
+      - name: Verify stored Parquet can be read by strategy provider
+        shell: bash
+        run: |
+          python - <<'PY'
+          import os
+          from data_engine.provider import HistoryProvider
+          provider = HistoryProvider(os.path.join(os.environ["RUNNER_TEMP"], "ashare-history"))
+          for symbol in ("600519", "000001"):
+              candles = provider.get_history(symbol, 250)
+              assert len(candles) >= 120, f"Insufficient real daily bars: {symbol}"
+              assert candles.date.is_monotonic_increasing, symbol
+              print(f"{symbol}: {len(candles)} verified, last={candles.date.iloc[-1].date()}")
+          PY
       - name: Publish ONLY verified public OHLCV files to history branch
         shell: bash
         run: |

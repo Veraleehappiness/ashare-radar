@@ -57,6 +57,7 @@ def update_stock_history(
                 time.sleep(min(30, sleep_seconds * (2 ** attempt)))
     else:
         raise RuntimeError(f"历史行情下载失败 {code}: {type(issue).__name__}: {str(issue)[:180]}") from issue
+    observed_provider = fresh.attrs.get("provider", "AKShare / unspecified")
     if fresh.empty:
         if old is None:
             raise RuntimeError(f"{code} 没有可入库的真实日K线")
@@ -67,7 +68,8 @@ def update_stock_history(
             "last_date": old.date.iloc[-1].strftime("%Y-%m-%d"),
             "fetched_start": requested, "updated_file": None,
             "elapsed_seconds": round(time.monotonic() - begin, 3),
-            "adjust": "none", "note": "停牌/休市或无新增日K线；原历史数据保留"
+            "adjust": "none", "provider": observed_provider,
+            "note": "停牌/休市或无新增日K线；原历史数据保留"
         }
     if old is None:
         merged = fresh
@@ -88,5 +90,5 @@ def update_stock_history(
         "fetched_start": requested,
         "updated_file": str(path) if path else None,
         "elapsed_seconds": round(time.monotonic() - begin, 3),
-        "adjust": "none",
+        "adjust": "none", "provider": observed_provider,
     }

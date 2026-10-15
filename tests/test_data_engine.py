@@ -112,3 +112,34 @@ def test_new_symbol_ingested(tmp_path):
         info=update_stock_history("000001",root=tmp_path,retries=0)
     assert info["rows"]==2 and info["added_rows"]==2
     assert info["adjust"] == "none"
+
+
+def test_akshare_adapter_blocks_unfinished_daily_bar():
+    from datetime import datetime
+    from zoneinfo import ZoneInfo
+    data = bars(("2026-10-14", "2026-10-15")).rename(columns={
+        "date":"日期", "open":"开盘", "high":"最高",
+        "low":"最低", "close":"收盘", "volume":"成交量",
+        "amount":"成交额",
+    })
+    fake = SimpleNamespace(stock_zh_a_hist=lambda **kwargs: data)
+    before = datetime(2026, 10, 15, 10, 15, tzinfo=ZoneInfo("Asia/Shanghai"))
+    after = datetime(2026, 10, 15, 16, 0, tzinfo=ZoneInfo("Asia/Shanghai"))
+    with patch.dict(sys.modules, {"akshare":fake}):
+        with patch("data_engine.akshare_adapter._china_now", return_value=before):
+            morning = get_daily_history("600519", "20261001", "20261015")
+        with patch("data_engine.akshare_adapter._china_now", return_value=after):
+            evening = get_daily_history("600519", "20261001", "20261015")
+    assert morning.date.dt.strftime("%Y-%m-%d").tolist() == ["2026-10-14"]
+    assert evening.date.dt.strftime("%Y-%m-%d").tolist() == ["2026-10-14", "2026-10-15"]
+
+
+def test_no_bars_preserves_previous_file(tmp_path):
+    save_history("600519", bars(), tmp_path)
+    path = history_path("600519", tmp_path)
+    previous = path.read_bytes()
+    empty = pd.DataFrame(columns=bars().columns)
+    with patch("data_engine.history_downloader.get_daily_history", return_value=empty):
+        result = update_stock_history("600519", root=tmp_path, retries=0)
+    assert result["added_rows"] == 0 and result["updated_file"] is None
+    assert path.read_bytes() == previous

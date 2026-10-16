@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-10-15T22:18:50.201430+08:00",
+  "generated_at": "2026-10-16T22:07:15.881004+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-10-15T22:18:48.865002+08:00",
+  "history_refresh_generated_at": "2026-10-16T22:07:15.039982+08:00",
   "attempted": 100,
   "evaluated": 94,
   "stale_or_short": [
@@ -77,110 +77,50 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 5,
+  "signal_count": 2,
   "signal_count_by_strategy": {
-    "bottom_reversal_v1": 2,
-    "volume_breakout_v1": 2,
+    "bottom_reversal_v1": 0,
+    "volume_breakout_v1": 1,
     "trend_pullback_v1": 1,
     "short_rebound_v1": 0
   },
   "signals": [
     {
-      "code": "600900",
-      "name": "长江电力",
-      "strategy_id": "volume_breakout_v1",
-      "strategy_name": "趋势放量突破",
-      "signal_date": "2026-10-15",
-      "reference_close": 29.6,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 28.618,
-        "ma60": 28.445,
-        "ma120": 27.8265,
-        "volume_ratio20": 1.59,
-        "prior_60d_close_high": 29.49,
-        "observed_120d_to_40d_drawdown_pct": 6.561
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "601857",
-      "name": "中国石油",
-      "strategy_id": "volume_breakout_v1",
-      "strategy_name": "趋势放量突破",
-      "signal_date": "2026-10-15",
-      "reference_close": 12.59,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 11.2885,
-        "ma60": 11.073,
-        "ma120": 10.8011,
-        "volume_ratio20": 1.796,
-        "prior_60d_close_high": 12.55,
-        "observed_120d_to_40d_drawdown_pct": 17.104
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "002074",
-      "name": "国轩高科",
-      "strategy_id": "bottom_reversal_v1",
-      "strategy_name": "底部反转",
-      "signal_date": "2026-10-15",
-      "reference_close": 28.16,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 27.4185,
-        "ma60": 27.3,
-        "ma120": 29.8864,
-        "volume_ratio20": 1.488,
-        "prior_60d_close_high": 31.3,
-        "observed_120d_to_40d_drawdown_pct": 40.54
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "002074",
-      "name": "国轩高科",
+      "code": "600127",
+      "name": "金健米业",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-15",
-      "reference_close": 28.16,
+      "signal_date": "2026-10-16",
+      "reference_close": 14.62,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 27.4185,
-        "ma60": 27.3,
-        "ma120": 29.8864,
-        "volume_ratio20": 1.488,
-        "prior_60d_close_high": 31.3,
-        "observed_120d_to_40d_drawdown_pct": 40.54
+        "ma20": 14.3345,
+        "ma60": 10.2517,
+        "ma120": 8.1492,
+        "volume_ratio20": 1.085,
+        "prior_60d_close_high": 16.75,
+        "observed_120d_to_40d_drawdown_pct": 65.806
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
     },
     {
-      "code": "300821",
-      "name": "东岳硅材",
-      "strategy_id": "bottom_reversal_v1",
-      "strategy_name": "底部反转",
-      "signal_date": "2026-10-15",
-      "reference_close": 18.32,
+      "code": "002242",
+      "name": "九阳股份",
+      "strategy_id": "volume_breakout_v1",
+      "strategy_name": "趋势放量突破",
+      "signal_date": "2026-10-16",
+      "reference_close": 17.79,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 15.8065,
-        "ma60": 16.0762,
-        "ma120": 16.9047,
-        "volume_ratio20": 2.345,
-        "prior_60d_close_high": 19.51,
-        "observed_120d_to_40d_drawdown_pct": 54.613
+        "ma20": 12.2595,
+        "ma60": 9.91,
+        "ma120": 9.6055,
+        "volume_ratio20": 2.037,
+        "prior_60d_close_high": 17.69,
+        "observed_120d_to_40d_drawdown_pct": 56.474
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-10-16T22:07:15.881004+08:00",
+  "generated_at": "2026-10-20T00:36:25.573132+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-10-16T22:07:15.039982+08:00",
+  "history_refresh_generated_at": "2026-10-20T00:36:24.859226+08:00",
   "attempted": 100,
   "evaluated": 94,
   "stale_or_short": [
@@ -81,26 +81,26 @@
   "signal_count_by_strategy": {
     "bottom_reversal_v1": 0,
     "volume_breakout_v1": 1,
-    "trend_pullback_v1": 1,
-    "short_rebound_v1": 0
+    "trend_pullback_v1": 0,
+    "short_rebound_v1": 1
   },
   "signals": [
     {
-      "code": "600127",
-      "name": "金健米业",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-16",
-      "reference_close": 14.62,
+      "code": "603259",
+      "name": "药明康德",
+      "strategy_id": "short_rebound_v1",
+      "strategy_name": "短期超跌反弹",
+      "signal_date": "2026-10-19",
+      "reference_close": 146.5,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 14.3345,
-        "ma60": 10.2517,
-        "ma120": 8.1492,
-        "volume_ratio20": 1.085,
-        "prior_60d_close_high": 16.75,
-        "observed_120d_to_40d_drawdown_pct": 65.806
+        "ma20": 159.2085,
+        "ma60": 152.107,
+        "ma120": 130.2367,
+        "volume_ratio20": 1.349,
+        "prior_60d_close_high": 167.96,
+        "observed_120d_to_40d_drawdown_pct": 19.902
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -110,16 +110,16 @@
       "name": "九阳股份",
       "strategy_id": "volume_breakout_v1",
       "strategy_name": "趋势放量突破",
-      "signal_date": "2026-10-16",
-      "reference_close": 17.79,
+      "signal_date": "2026-10-19",
+      "reference_close": 18.69,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 12.2595,
-        "ma60": 9.91,
-        "ma120": 9.6055,
-        "volume_ratio20": 2.037,
-        "prior_60d_close_high": 17.69,
+        "ma20": 12.707,
+        "ma60": 10.0818,
+        "ma120": 9.6675,
+        "volume_ratio20": 2.971,
+        "prior_60d_close_high": 17.79,
         "observed_120d_to_40d_drawdown_pct": 56.474
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",

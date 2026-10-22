@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-10-21T22:36:54.535864+08:00",
+  "generated_at": "2026-10-22T22:38:33.805546+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-10-21T22:36:53.104465+08:00",
+  "history_refresh_generated_at": "2026-10-22T22:38:32.967281+08:00",
   "attempted": 100,
   "evaluated": 94,
   "stale_or_short": [
@@ -77,210 +77,30 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 10,
+  "signal_count": 1,
   "signal_count_by_strategy": {
-    "bottom_reversal_v1": 1,
+    "bottom_reversal_v1": 0,
     "volume_breakout_v1": 1,
-    "trend_pullback_v1": 3,
-    "short_rebound_v1": 5
+    "trend_pullback_v1": 0,
+    "short_rebound_v1": 0
   },
   "signals": [
     {
-      "code": "603228",
-      "name": "景旺电子",
-      "strategy_id": "short_rebound_v1",
-      "strategy_name": "短期超跌反弹",
-      "signal_date": "2026-10-21",
-      "reference_close": 90.0,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 98.463,
-        "ma60": 93.4272,
-        "ma120": 83.5079,
-        "volume_ratio20": 0.863,
-        "prior_60d_close_high": 111.75,
-        "observed_120d_to_40d_drawdown_pct": 26.822
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "600127",
-      "name": "金健米业",
-      "strategy_id": "short_rebound_v1",
-      "strategy_name": "短期超跌反弹",
-      "signal_date": "2026-10-21",
-      "reference_close": 13.61,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 14.3115,
-        "ma60": 10.6417,
-        "ma120": 8.3087,
-        "volume_ratio20": 0.88,
-        "prior_60d_close_high": 16.75,
-        "observed_120d_to_40d_drawdown_pct": 54.428
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "002428",
-      "name": "云南锗业",
-      "strategy_id": "short_rebound_v1",
-      "strategy_name": "短期超跌反弹",
-      "signal_date": "2026-10-21",
-      "reference_close": 84.06,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 86.892,
-        "ma60": 89.1955,
-        "ma120": 90.8989,
-        "volume_ratio20": 1.558,
-        "prior_60d_close_high": 109.65,
-        "observed_120d_to_40d_drawdown_pct": 45.056
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "002354",
-      "name": "天娱数科",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-21",
-      "reference_close": 7.91,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 7.516,
-        "ma60": 7.5038,
-        "ma120": 7.4292,
-        "volume_ratio20": 1.672,
-        "prior_60d_close_high": 8.53,
-        "observed_120d_to_40d_drawdown_pct": 34.333
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "002242",
-      "name": "九阳股份",
+      "code": "600900",
+      "name": "长江电力",
       "strategy_id": "volume_breakout_v1",
       "strategy_name": "趋势放量突破",
-      "signal_date": "2026-10-21",
-      "reference_close": 22.62,
+      "signal_date": "2026-10-22",
+      "reference_close": 29.82,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 13.925,
-        "ma60": 10.5255,
-        "ma120": 9.8518,
-        "volume_ratio20": 2.343,
-        "prior_60d_close_high": 20.56,
-        "observed_120d_to_40d_drawdown_pct": 61.089
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "000592",
-      "name": "平潭发展",
-      "strategy_id": "short_rebound_v1",
-      "strategy_name": "短期超跌反弹",
-      "signal_date": "2026-10-21",
-      "reference_close": 7.19,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 7.9925,
-        "ma60": 7.0942,
-        "ma120": 7.7306,
-        "volume_ratio20": 1.4,
-        "prior_60d_close_high": 9.09,
-        "observed_120d_to_40d_drawdown_pct": 53.371
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300489",
-      "name": "光智科技",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-21",
-      "reference_close": 257.33,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 255.6575,
-        "ma60": 223.9392,
-        "ma120": 201.913,
-        "volume_ratio20": 0.903,
-        "prior_60d_close_high": 301.22,
-        "observed_120d_to_40d_drawdown_pct": 41.785
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300821",
-      "name": "东岳硅材",
-      "strategy_id": "bottom_reversal_v1",
-      "strategy_name": "底部反转",
-      "signal_date": "2026-10-21",
-      "reference_close": 17.61,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 16.339,
-        "ma60": 16.0738,
-        "ma120": 17.004,
-        "volume_ratio20": 1.486,
-        "prior_60d_close_high": 19.25,
-        "observed_120d_to_40d_drawdown_pct": 54.613
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300821",
-      "name": "东岳硅材",
-      "strategy_id": "short_rebound_v1",
-      "strategy_name": "短期超跌反弹",
-      "signal_date": "2026-10-21",
-      "reference_close": 17.61,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 16.339,
-        "ma60": 16.0738,
-        "ma120": 17.004,
-        "volume_ratio20": 1.486,
-        "prior_60d_close_high": 19.25,
-        "observed_120d_to_40d_drawdown_pct": 54.613
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300364",
-      "name": "中文在线",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-21",
-      "reference_close": 24.62,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 24.369,
-        "ma60": 24.1145,
-        "ma120": 24.8573,
-        "volume_ratio20": 0.817,
-        "prior_60d_close_high": 28.31,
-        "observed_120d_to_40d_drawdown_pct": 39.718
+        "ma20": 28.9115,
+        "ma60": 28.5278,
+        "ma120": 27.9418,
+        "volume_ratio20": 1.845,
+        "prior_60d_close_high": 29.69,
+        "observed_120d_to_40d_drawdown_pct": 7.282
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

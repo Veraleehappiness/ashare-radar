@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-10-22T22:38:33.805546+08:00",
+  "generated_at": "2026-10-23T22:22:42.448747+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-10-22T22:38:32.967281+08:00",
+  "history_refresh_generated_at": "2026-10-23T22:22:41.000522+08:00",
   "attempted": 100,
-  "evaluated": 94,
+  "evaluated": 95,
   "stale_or_short": [
     {
       "code": "001246",
@@ -23,11 +23,6 @@
     {
       "code": "688808",
       "reason": "less than 130 completed daily bars"
-    },
-    {
-      "code": "920045",
-      "reason": "older than scan freshness threshold",
-      "last_bar": "2026-10-14"
     },
     {
       "code": "920157",
@@ -77,30 +72,110 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 1,
+  "signal_count": 5,
   "signal_count_by_strategy": {
-    "bottom_reversal_v1": 0,
-    "volume_breakout_v1": 1,
-    "trend_pullback_v1": 0,
-    "short_rebound_v1": 0
+    "bottom_reversal_v1": 2,
+    "volume_breakout_v1": 0,
+    "trend_pullback_v1": 1,
+    "short_rebound_v1": 2
   },
   "signals": [
     {
-      "code": "600900",
-      "name": "长江电力",
-      "strategy_id": "volume_breakout_v1",
-      "strategy_name": "趋势放量突破",
-      "signal_date": "2026-10-22",
-      "reference_close": 29.82,
+      "code": "603259",
+      "name": "药明康德",
+      "strategy_id": "short_rebound_v1",
+      "strategy_name": "短期超跌反弹",
+      "signal_date": "2026-10-23",
+      "reference_close": 144.72,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 28.9115,
-        "ma60": 28.5278,
-        "ma120": 27.9418,
-        "volume_ratio20": 1.845,
-        "prior_60d_close_high": 29.69,
-        "observed_120d_to_40d_drawdown_pct": 7.282
+        "ma20": 156.574,
+        "ma60": 153.3907,
+        "ma120": 131.7615,
+        "volume_ratio20": 1.368,
+        "prior_60d_close_high": 167.96,
+        "observed_120d_to_40d_drawdown_pct": 21.717
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "600111",
+      "name": "北方稀土",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-10-23",
+      "reference_close": 36.53,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 35.907,
+        "ma60": 38.6613,
+        "ma120": 43.4991,
+        "volume_ratio20": 1.6,
+        "prior_60d_close_high": 44.06,
+        "observed_120d_to_40d_drawdown_pct": 41.408
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "002354",
+      "name": "天娱数科",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-10-23",
+      "reference_close": 8.03,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 7.5185,
+        "ma60": 7.5505,
+        "ma120": 7.4637,
+        "volume_ratio20": 1.406,
+        "prior_60d_close_high": 8.53,
+        "observed_120d_to_40d_drawdown_pct": 34.333
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300364",
+      "name": "中文在线",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-10-23",
+      "reference_close": 24.5,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 24.328,
+        "ma60": 24.2317,
+        "ma120": 24.7494,
+        "volume_ratio20": 0.966,
+        "prior_60d_close_high": 28.31,
+        "observed_120d_to_40d_drawdown_pct": 39.718
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300364",
+      "name": "中文在线",
+      "strategy_id": "short_rebound_v1",
+      "strategy_name": "短期超跌反弹",
+      "signal_date": "2026-10-23",
+      "reference_close": 24.5,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 24.328,
+        "ma60": 24.2317,
+        "ma120": 24.7494,
+        "volume_ratio20": 0.966,
+        "prior_60d_close_high": 28.31,
+        "observed_120d_to_40d_drawdown_pct": 39.718
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

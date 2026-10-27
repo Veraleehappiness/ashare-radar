@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-10-27T00:16:27.928277+08:00",
+  "generated_at": "2026-10-27T23:30:37.270743+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-10-27T00:16:26.453511+08:00",
+  "history_refresh_generated_at": "2026-10-27T23:30:35.933587+08:00",
   "attempted": 100,
   "evaluated": 95,
   "stale_or_short": [
@@ -72,12 +72,12 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 10,
+  "signal_count": 5,
   "signal_count_by_strategy": {
-    "bottom_reversal_v1": 2,
-    "volume_breakout_v1": 1,
-    "trend_pullback_v1": 6,
-    "short_rebound_v1": 1
+    "bottom_reversal_v1": 1,
+    "volume_breakout_v1": 0,
+    "trend_pullback_v1": 4,
+    "short_rebound_v1": 0
   },
   "signals": [
     {
@@ -85,17 +85,17 @@
       "name": "招商银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-26",
-      "reference_close": 42.5,
+      "signal_date": "2026-10-27",
+      "reference_close": 42.99,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 41.7985,
-        "ma60": 40.5213,
-        "ma120": 39.1392,
-        "volume_ratio20": 1.336,
+        "ma20": 41.896,
+        "ma60": 40.5878,
+        "ma120": 39.1674,
+        "volume_ratio20": 1.179,
         "prior_60d_close_high": 43.05,
-        "observed_120d_to_40d_drawdown_pct": 10.171
+        "observed_120d_to_40d_drawdown_pct": 9.106
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -105,37 +105,17 @@
       "name": "工商银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-26",
-      "reference_close": 8.58,
+      "signal_date": "2026-10-27",
+      "reference_close": 8.62,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 8.3525,
-        "ma60": 8.0387,
-        "ma120": 7.6939,
-        "volume_ratio20": 1.483,
+        "ma20": 8.378,
+        "ma60": 8.0535,
+        "ma120": 7.703,
+        "volume_ratio20": 1.125,
         "prior_60d_close_high": 8.6,
-        "observed_120d_to_40d_drawdown_pct": 10.636
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "600900",
-      "name": "长江电力",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-26",
-      "reference_close": 29.86,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 29.0405,
-        "ma60": 28.5523,
-        "ma120": 27.9905,
-        "volume_ratio20": 1.191,
-        "prior_60d_close_high": 29.82,
-        "observed_120d_to_40d_drawdown_pct": 7.869
+        "observed_120d_to_40d_drawdown_pct": 10.173
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -145,17 +125,17 @@
       "name": "中国银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-26",
-      "reference_close": 7.0,
+      "signal_date": "2026-10-27",
+      "reference_close": 7.02,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 6.8895,
-        "ma60": 6.4288,
-        "ma120": 6.1505,
-        "volume_ratio20": 1.25,
+        "ma20": 6.909,
+        "ma60": 6.4458,
+        "ma120": 6.1606,
+        "volume_ratio20": 1.011,
         "prior_60d_close_high": 7.24,
-        "observed_120d_to_40d_drawdown_pct": 16.828
+        "observed_120d_to_40d_drawdown_pct": 16.0
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -165,37 +145,17 @@
       "name": "农业银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-26",
-      "reference_close": 7.33,
+      "signal_date": "2026-10-27",
+      "reference_close": 7.4,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 7.1245,
-        "ma60": 6.8948,
-        "ma120": 6.6818,
-        "volume_ratio20": 1.163,
+        "ma20": 7.149,
+        "ma60": 6.9062,
+        "ma120": 6.6853,
+        "volume_ratio20": 0.976,
         "prior_60d_close_high": 7.49,
         "observed_120d_to_40d_drawdown_pct": 11.141
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "601857",
-      "name": "中国石油",
-      "strategy_id": "volume_breakout_v1",
-      "strategy_name": "趋势放量突破",
-      "signal_date": "2026-10-26",
-      "reference_close": 13.38,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 11.941,
-        "ma60": 11.3215,
-        "ma120": 10.8682,
-        "volume_ratio20": 1.512,
-        "prior_60d_close_high": 12.85,
-        "observed_120d_to_40d_drawdown_pct": 19.412
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -205,77 +165,17 @@
       "name": "天娱数科",
       "strategy_id": "bottom_reversal_v1",
       "strategy_name": "底部反转",
-      "signal_date": "2026-10-26",
-      "reference_close": 8.15,
+      "signal_date": "2026-10-27",
+      "reference_close": 8.24,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 7.546,
-        "ma60": 7.5877,
-        "ma120": 7.4851,
-        "volume_ratio20": 3.192,
+        "ma20": 7.562,
+        "ma60": 7.6202,
+        "ma120": 7.5087,
+        "volume_ratio20": 2.324,
         "prior_60d_close_high": 8.53,
         "observed_120d_to_40d_drawdown_pct": 34.333
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300821",
-      "name": "东岳硅材",
-      "strategy_id": "bottom_reversal_v1",
-      "strategy_name": "底部反转",
-      "signal_date": "2026-10-26",
-      "reference_close": 16.94,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 16.4545,
-        "ma60": 16.0858,
-        "ma120": 17.0426,
-        "volume_ratio20": 1.464,
-        "prior_60d_close_high": 19.25,
-        "observed_120d_to_40d_drawdown_pct": 54.613
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300821",
-      "name": "东岳硅材",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-26",
-      "reference_close": 16.94,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 16.4545,
-        "ma60": 16.0858,
-        "ma120": 17.0426,
-        "volume_ratio20": 1.464,
-        "prior_60d_close_high": 19.25,
-        "observed_120d_to_40d_drawdown_pct": 54.613
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300821",
-      "name": "东岳硅材",
-      "strategy_id": "short_rebound_v1",
-      "strategy_name": "短期超跌反弹",
-      "signal_date": "2026-10-26",
-      "reference_close": 16.94,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 16.4545,
-        "ma60": 16.0858,
-        "ma120": 17.0426,
-        "volume_ratio20": 1.464,
-        "prior_60d_close_high": 19.25,
-        "observed_120d_to_40d_drawdown_pct": 54.613
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

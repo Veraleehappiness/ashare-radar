@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-10-31T00:06:46.985085+08:00",
+  "generated_at": "2026-11-03T03:39:47.668468+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-10-31T00:06:46.016939+08:00",
+  "history_refresh_generated_at": "2026-11-03T03:39:46.271228+08:00",
   "attempted": 100,
-  "evaluated": 94,
+  "evaluated": 95,
   "stale_or_short": [
     {
       "code": "001246",
@@ -23,11 +23,6 @@
     {
       "code": "688808",
       "reason": "less than 130 completed daily bars"
-    },
-    {
-      "code": "920045",
-      "reason": "older than scan freshness threshold",
-      "last_bar": "2026-10-23"
     },
     {
       "code": "920157",
@@ -77,30 +72,30 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 2,
+  "signal_count": 6,
   "signal_count_by_strategy": {
-    "bottom_reversal_v1": 0,
+    "bottom_reversal_v1": 3,
     "volume_breakout_v1": 1,
     "trend_pullback_v1": 1,
-    "short_rebound_v1": 0
+    "short_rebound_v1": 1
   },
   "signals": [
     {
-      "code": "600036",
-      "name": "招商银行",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-10-30",
-      "reference_close": 43.55,
+      "code": "600519",
+      "name": "贵州茅台",
+      "strategy_id": "volume_breakout_v1",
+      "strategy_name": "趋势放量突破",
+      "signal_date": "2026-11-02",
+      "reference_close": 1439.1,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 42.2215,
-        "ma60": 40.7348,
-        "ma120": 39.2828,
-        "volume_ratio20": 1.256,
-        "prior_60d_close_high": 43.05,
-        "observed_120d_to_40d_drawdown_pct": 9.106
+        "ma20": 1317.283,
+        "ma60": 1303.8425,
+        "ma120": 1287.6713,
+        "volume_ratio20": 2.174,
+        "prior_60d_close_high": 1392.05,
+        "observed_120d_to_40d_drawdown_pct": 11.861
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -108,19 +103,99 @@
     {
       "code": "600519",
       "name": "贵州茅台",
-      "strategy_id": "volume_breakout_v1",
-      "strategy_name": "趋势放量突破",
-      "signal_date": "2026-10-30",
-      "reference_close": 1392.05,
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-02",
+      "reference_close": 1439.1,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 1307.522,
-        "ma60": 1302.3675,
-        "ma120": 1287.1043,
-        "volume_ratio20": 1.637,
-        "prior_60d_close_high": 1361.76,
-        "observed_120d_to_40d_drawdown_pct": 11.52
+        "ma20": 1317.283,
+        "ma60": 1303.8425,
+        "ma120": 1287.6713,
+        "volume_ratio20": 2.174,
+        "prior_60d_close_high": 1392.05,
+        "observed_120d_to_40d_drawdown_pct": 11.861
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "600111",
+      "name": "北方稀土",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-02",
+      "reference_close": 35.38,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 35.374,
+        "ma60": 38.2668,
+        "ma120": 42.6996,
+        "volume_ratio20": 1.301,
+        "prior_60d_close_high": 44.06,
+        "observed_120d_to_40d_drawdown_pct": 41.408
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "002354",
+      "name": "天娱数科",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-02",
+      "reference_close": 7.9,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 7.6465,
+        "ma60": 7.7387,
+        "ma120": 7.5672,
+        "volume_ratio20": 1.399,
+        "prior_60d_close_high": 8.53,
+        "observed_120d_to_40d_drawdown_pct": 34.139
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300364",
+      "name": "中文在线",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-02",
+      "reference_close": 25.08,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 24.1585,
+        "ma60": 24.5217,
+        "ma120": 24.4572,
+        "volume_ratio20": 1.353,
+        "prior_60d_close_high": 28.31,
+        "observed_120d_to_40d_drawdown_pct": 39.718
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300364",
+      "name": "中文在线",
+      "strategy_id": "short_rebound_v1",
+      "strategy_name": "短期超跌反弹",
+      "signal_date": "2026-11-02",
+      "reference_close": 25.08,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 24.1585,
+        "ma60": 24.5217,
+        "ma120": 24.4572,
+        "volume_ratio20": 1.353,
+        "prior_60d_close_high": 28.31,
+        "observed_120d_to_40d_drawdown_pct": 39.718
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

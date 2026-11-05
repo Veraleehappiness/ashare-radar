@@ -1,12 +1,12 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-11-05T01:26:01.718952+08:00",
+  "generated_at": "2026-11-06T01:31:49.663303+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-11-05T01:26:00.564009+08:00",
+  "history_refresh_generated_at": "2026-11-06T01:31:48.294610+08:00",
   "attempted": 100,
-  "evaluated": 95,
+  "evaluated": 96,
   "stale_or_short": [
     {
       "code": "001246",
@@ -18,10 +18,6 @@
     },
     {
       "code": "688825",
-      "reason": "less than 130 completed daily bars"
-    },
-    {
-      "code": "688808",
       "reason": "less than 130 completed daily bars"
     },
     {
@@ -72,12 +68,12 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 4,
+  "signal_count": 7,
   "signal_count_by_strategy": {
     "bottom_reversal_v1": 4,
     "volume_breakout_v1": 0,
-    "trend_pullback_v1": 0,
-    "short_rebound_v1": 0
+    "trend_pullback_v1": 2,
+    "short_rebound_v1": 1
   },
   "signals": [
     {
@@ -85,17 +81,37 @@
       "name": "北方稀土",
       "strategy_id": "bottom_reversal_v1",
       "strategy_name": "底部反转",
-      "signal_date": "2026-11-04",
-      "reference_close": 36.5,
+      "signal_date": "2026-11-05",
+      "reference_close": 36.83,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 35.446,
-        "ma60": 38.1277,
-        "ma120": 42.3625,
-        "volume_ratio20": 1.347,
+        "ma20": 35.5625,
+        "ma60": 38.0453,
+        "ma120": 42.2157,
+        "volume_ratio20": 1.273,
         "prior_60d_close_high": 44.06,
-        "observed_120d_to_40d_drawdown_pct": 41.408
+        "observed_120d_to_40d_drawdown_pct": 41.398
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "600309",
+      "name": "万华化学",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-05",
+      "reference_close": 73.58,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 68.6365,
+        "ma60": 72.1312,
+        "ma120": 72.6433,
+        "volume_ratio20": 1.667,
+        "prior_60d_close_high": 78.87,
+        "observed_120d_to_40d_drawdown_pct": 25.044
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -105,15 +121,15 @@
       "name": "立讯精密",
       "strategy_id": "bottom_reversal_v1",
       "strategy_name": "底部反转",
-      "signal_date": "2026-11-04",
-      "reference_close": 49.51,
+      "signal_date": "2026-11-05",
+      "reference_close": 50.86,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 47.214,
-        "ma60": 52.3283,
-        "ma120": 59.4898,
-        "volume_ratio20": 1.642,
+        "ma20": 47.3355,
+        "ma60": 52.2448,
+        "ma120": 59.2704,
+        "volume_ratio20": 1.536,
         "prior_60d_close_high": 58.84,
         "observed_120d_to_40d_drawdown_pct": 46.735
       },
@@ -123,19 +139,39 @@
     {
       "code": "002354",
       "name": "天娱数科",
-      "strategy_id": "bottom_reversal_v1",
-      "strategy_name": "底部反转",
-      "signal_date": "2026-11-04",
-      "reference_close": 8.19,
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-05",
+      "reference_close": 8.41,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 7.72,
-        "ma60": 7.7525,
-        "ma120": 7.5935,
-        "volume_ratio20": 1.329,
+        "ma20": 7.7905,
+        "ma60": 7.7607,
+        "ma120": 7.6098,
+        "volume_ratio20": 1.128,
         "prior_60d_close_high": 8.53,
         "observed_120d_to_40d_drawdown_pct": 34.139
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300489",
+      "name": "光智科技",
+      "strategy_id": "short_rebound_v1",
+      "strategy_name": "短期超跌反弹",
+      "signal_date": "2026-11-05",
+      "reference_close": 196.02,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 227.546,
+        "ma60": 230.8298,
+        "ma120": 210.3133,
+        "volume_ratio20": 1.274,
+        "prior_60d_close_high": 301.22,
+        "observed_120d_to_40d_drawdown_pct": 52.579
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -145,17 +181,37 @@
       "name": "中文在线",
       "strategy_id": "bottom_reversal_v1",
       "strategy_name": "底部反转",
-      "signal_date": "2026-11-04",
-      "reference_close": 25.98,
+      "signal_date": "2026-11-05",
+      "reference_close": 27.16,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 24.321,
-        "ma60": 24.5317,
-        "ma120": 24.3581,
-        "volume_ratio20": 1.289,
+        "ma20": 24.6595,
+        "ma60": 24.5433,
+        "ma120": 24.3298,
+        "volume_ratio20": 1.446,
         "prior_60d_close_high": 28.31,
-        "observed_120d_to_40d_drawdown_pct": 37.235
+        "observed_120d_to_40d_drawdown_pct": 36.219
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300364",
+      "name": "中文在线",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-05",
+      "reference_close": 27.16,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 24.6595,
+        "ma60": 24.5433,
+        "ma120": 24.3298,
+        "volume_ratio20": 1.446,
+        "prior_60d_close_high": 28.31,
+        "observed_120d_to_40d_drawdown_pct": 36.219
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-11-07T00:52:47.362667+08:00",
+  "generated_at": "2026-11-10T03:57:27.143550+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-11-07T00:52:46.650448+08:00",
+  "history_refresh_generated_at": "2026-11-10T03:57:26.081182+08:00",
   "attempted": 100,
   "evaluated": 96,
   "stale_or_short": [
@@ -68,70 +68,90 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 4,
+  "signal_count": 5,
   "signal_count_by_strategy": {
     "bottom_reversal_v1": 0,
     "volume_breakout_v1": 0,
     "trend_pullback_v1": 3,
-    "short_rebound_v1": 1
+    "short_rebound_v1": 2
   },
   "signals": [
     {
-      "code": "600036",
-      "name": "招商银行",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-06",
-      "reference_close": 42.88,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 42.636,
-        "ma60": 41.0125,
-        "ma120": 39.4844,
-        "volume_ratio20": 0.934,
-        "prior_60d_close_high": 43.55,
-        "observed_120d_to_40d_drawdown_pct": 8.612
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "600900",
-      "name": "长江电力",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-06",
-      "reference_close": 29.91,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 29.6035,
-        "ma60": 28.7088,
-        "ma120": 28.191,
-        "volume_ratio20": 1.314,
-        "prior_60d_close_high": 29.99,
-        "observed_120d_to_40d_drawdown_pct": 8.206
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "601857",
-      "name": "中国石油",
+      "code": "601872",
+      "name": "招商轮船",
       "strategy_id": "short_rebound_v1",
       "strategy_name": "短期超跌反弹",
-      "signal_date": "2026-11-06",
-      "reference_close": 12.7,
+      "signal_date": "2026-11-09",
+      "reference_close": 16.56,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 12.993,
-        "ma60": 11.695,
-        "ma120": 11.0059,
-        "volume_ratio20": 1.304,
-        "prior_60d_close_high": 14.02,
-        "observed_120d_to_40d_drawdown_pct": 25.942
+        "ma20": 17.748,
+        "ma60": 18.9265,
+        "ma120": 17.744,
+        "volume_ratio20": 0.799,
+        "prior_60d_close_high": 22.91,
+        "observed_120d_to_40d_drawdown_pct": 30.505
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "601398",
+      "name": "工商银行",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-09",
+      "reference_close": 8.61,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 8.542,
+        "ma60": 8.1682,
+        "ma120": 7.7911,
+        "volume_ratio20": 0.828,
+        "prior_60d_close_high": 8.78,
+        "observed_120d_to_40d_drawdown_pct": 11.599
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "601288",
+      "name": "农业银行",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-09",
+      "reference_close": 7.39,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 7.3555,
+        "ma60": 7.0032,
+        "ma120": 6.7284,
+        "volume_ratio20": 0.77,
+        "prior_60d_close_high": 7.56,
+        "observed_120d_to_40d_drawdown_pct": 12.304
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "600026",
+      "name": "中远海能",
+      "strategy_id": "short_rebound_v1",
+      "strategy_name": "短期超跌反弹",
+      "signal_date": "2026-11-09",
+      "reference_close": 17.7,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 19.311,
+        "ma60": 19.6938,
+        "ma120": 18.862,
+        "volume_ratio20": 0.961,
+        "prior_60d_close_high": 23.49,
+        "observed_120d_to_40d_drawdown_pct": 29.137
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -141,15 +161,15 @@
       "name": "博纳影业",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-06",
-      "reference_close": 6.23,
+      "signal_date": "2026-11-09",
+      "reference_close": 6.37,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 6.1945,
-        "ma60": 5.7775,
-        "ma120": 6.163,
-        "volume_ratio20": 1.074,
+        "ma20": 6.1295,
+        "ma60": 5.7985,
+        "ma120": 6.1402,
+        "volume_ratio20": 0.971,
         "prior_60d_close_high": 7.67,
         "observed_120d_to_40d_drawdown_pct": 52.122
       },

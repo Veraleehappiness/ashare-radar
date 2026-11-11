@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-11-11T01:12:01.719741+08:00",
+  "generated_at": "2026-11-12T01:20:38.290889+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-11-11T01:12:00.139448+08:00",
+  "history_refresh_generated_at": "2026-11-12T01:20:37.248385+08:00",
   "attempted": 100,
   "evaluated": 96,
   "stale_or_short": [
@@ -68,50 +68,30 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 2,
+  "signal_count": 1,
   "signal_count_by_strategy": {
     "bottom_reversal_v1": 1,
     "volume_breakout_v1": 0,
-    "trend_pullback_v1": 1,
+    "trend_pullback_v1": 0,
     "short_rebound_v1": 0
   },
   "signals": [
     {
-      "code": "001330",
-      "name": "博纳影业",
-      "strategy_id": "trend_pullback_v1",
-      "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-10",
-      "reference_close": 6.82,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 6.1005,
-        "ma60": 5.8223,
-        "ma120": 6.1208,
-        "volume_ratio20": 1.041,
-        "prior_60d_close_high": 7.67,
-        "observed_120d_to_40d_drawdown_pct": 52.122
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300058",
-      "name": "蓝色光标",
+      "code": "002636",
+      "name": "金安国纪",
       "strategy_id": "bottom_reversal_v1",
       "strategy_name": "底部反转",
-      "signal_date": "2026-11-10",
-      "reference_close": 13.36,
+      "signal_date": "2026-11-11",
+      "reference_close": 68.97,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 12.402,
-        "ma60": 13.1997,
-        "ma120": 13.8642,
-        "volume_ratio20": 1.228,
-        "prior_60d_close_high": 16.08,
-        "observed_120d_to_40d_drawdown_pct": 39.684
+        "ma20": 62.7895,
+        "ma60": 69.4883,
+        "ma120": 72.7613,
+        "volume_ratio20": 1.316,
+        "prior_60d_close_high": 87.15,
+        "observed_120d_to_40d_drawdown_pct": 57.3
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

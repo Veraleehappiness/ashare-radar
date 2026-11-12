@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-11-12T01:20:38.290889+08:00",
+  "generated_at": "2026-11-13T01:42:31.034566+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-11-12T01:20:37.248385+08:00",
+  "history_refresh_generated_at": "2026-11-13T01:42:30.184134+08:00",
   "attempted": 100,
   "evaluated": 96,
   "stale_or_short": [
@@ -68,30 +68,90 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 1,
+  "signal_count": 4,
   "signal_count_by_strategy": {
-    "bottom_reversal_v1": 1,
+    "bottom_reversal_v1": 2,
     "volume_breakout_v1": 0,
-    "trend_pullback_v1": 0,
+    "trend_pullback_v1": 2,
     "short_rebound_v1": 0
   },
   "signals": [
     {
-      "code": "002636",
-      "name": "金安国纪",
-      "strategy_id": "bottom_reversal_v1",
-      "strategy_name": "底部反转",
-      "signal_date": "2026-11-11",
-      "reference_close": 68.97,
+      "code": "601398",
+      "name": "工商银行",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-12",
+      "reference_close": 8.69,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 62.7895,
-        "ma60": 69.4883,
-        "ma120": 72.7613,
-        "volume_ratio20": 1.316,
-        "prior_60d_close_high": 87.15,
-        "observed_120d_to_40d_drawdown_pct": 57.3
+        "ma20": 8.561,
+        "ma60": 8.221,
+        "ma120": 7.8255,
+        "volume_ratio20": 0.822,
+        "prior_60d_close_high": 8.78,
+        "observed_120d_to_40d_drawdown_pct": 9.91
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "601988",
+      "name": "中国银行",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-12",
+      "reference_close": 7.04,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 7.012,
+        "ma60": 6.6565,
+        "ma120": 6.283,
+        "volume_ratio20": 0.838,
+        "prior_60d_close_high": 7.24,
+        "observed_120d_to_40d_drawdown_pct": 11.034
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300058",
+      "name": "蓝色光标",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-12",
+      "reference_close": 14.76,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 12.5455,
+        "ma60": 13.1427,
+        "ma120": 13.7939,
+        "volume_ratio20": 3.711,
+        "prior_60d_close_high": 15.89,
+        "observed_120d_to_40d_drawdown_pct": 39.684
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "688981",
+      "name": "中芯国际",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-12",
+      "reference_close": 111.72,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 104.2065,
+        "ma60": 114.9335,
+        "ma120": 127.5011,
+        "volume_ratio20": 1.387,
+        "prior_60d_close_high": 136.76,
+        "observed_120d_to_40d_drawdown_pct": 46.24
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

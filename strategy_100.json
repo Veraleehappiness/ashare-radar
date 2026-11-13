@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-11-13T01:42:31.034566+08:00",
+  "generated_at": "2026-11-14T01:19:53.025398+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-11-13T01:42:30.184134+08:00",
+  "history_refresh_generated_at": "2026-11-14T01:19:51.961174+08:00",
   "attempted": 100,
   "evaluated": 96,
   "stale_or_short": [
@@ -70,26 +70,66 @@
   ],
   "signal_count": 4,
   "signal_count_by_strategy": {
-    "bottom_reversal_v1": 2,
+    "bottom_reversal_v1": 0,
     "volume_breakout_v1": 0,
-    "trend_pullback_v1": 2,
+    "trend_pullback_v1": 4,
     "short_rebound_v1": 0
   },
   "signals": [
+    {
+      "code": "600036",
+      "name": "招商银行",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-13",
+      "reference_close": 42.93,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 42.676,
+        "ma60": 41.346,
+        "ma120": 39.7067,
+        "volume_ratio20": 0.815,
+        "prior_60d_close_high": 43.55,
+        "observed_120d_to_40d_drawdown_pct": 8.612
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "600519",
+      "name": "贵州茅台",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-13",
+      "reference_close": 1435.26,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 1390.2535,
+        "ma60": 1319.81,
+        "ma120": 1295.112,
+        "volume_ratio20": 0.929,
+        "prior_60d_close_high": 1480.0,
+        "observed_120d_to_40d_drawdown_pct": 17.054
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
     {
       "code": "601398",
       "name": "工商银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-12",
-      "reference_close": 8.69,
+      "signal_date": "2026-11-13",
+      "reference_close": 8.85,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 8.561,
-        "ma60": 8.221,
-        "ma120": 7.8255,
-        "volume_ratio20": 0.822,
+        "ma20": 8.5795,
+        "ma60": 8.2418,
+        "ma120": 7.8398,
+        "volume_ratio20": 0.813,
         "prior_60d_close_high": 8.78,
         "observed_120d_to_40d_drawdown_pct": 9.91
       },
@@ -101,57 +141,17 @@
       "name": "中国银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-12",
-      "reference_close": 7.04,
+      "signal_date": "2026-11-13",
+      "reference_close": 7.18,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 7.012,
-        "ma60": 6.6565,
-        "ma120": 6.283,
-        "volume_ratio20": 0.838,
+        "ma20": 7.025,
+        "ma60": 6.677,
+        "ma120": 6.2953,
+        "volume_ratio20": 0.897,
         "prior_60d_close_high": 7.24,
-        "observed_120d_to_40d_drawdown_pct": 11.034
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "300058",
-      "name": "蓝色光标",
-      "strategy_id": "bottom_reversal_v1",
-      "strategy_name": "底部反转",
-      "signal_date": "2026-11-12",
-      "reference_close": 14.76,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 12.5455,
-        "ma60": 13.1427,
-        "ma120": 13.7939,
-        "volume_ratio20": 3.711,
-        "prior_60d_close_high": 15.89,
-        "observed_120d_to_40d_drawdown_pct": 39.684
-      },
-      "execution": "信号收盘后才已知，不表示该收盘价可成交",
-      "forward_performance": null
-    },
-    {
-      "code": "688981",
-      "name": "中芯国际",
-      "strategy_id": "bottom_reversal_v1",
-      "strategy_name": "底部反转",
-      "signal_date": "2026-11-12",
-      "reference_close": 111.72,
-      "price_adjustment": "none",
-      "status": "hypothesis_only",
-      "metrics": {
-        "ma20": 104.2065,
-        "ma60": 114.9335,
-        "ma120": 127.5011,
-        "volume_ratio20": 1.387,
-        "prior_60d_close_high": 136.76,
-        "observed_120d_to_40d_drawdown_pct": 46.24
+        "observed_120d_to_40d_drawdown_pct": 10.759
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

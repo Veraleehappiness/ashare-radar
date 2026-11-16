@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-11-14T01:19:53.025398+08:00",
+  "generated_at": "2026-11-17T03:45:43.850774+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-11-14T01:19:51.961174+08:00",
+  "history_refresh_generated_at": "2026-11-17T03:45:42.342776+08:00",
   "attempted": 100,
   "evaluated": 96,
   "stale_or_short": [
@@ -68,11 +68,11 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 4,
+  "signal_count": 6,
   "signal_count_by_strategy": {
     "bottom_reversal_v1": 0,
     "volume_breakout_v1": 0,
-    "trend_pullback_v1": 4,
+    "trend_pullback_v1": 6,
     "short_rebound_v1": 0
   },
   "signals": [
@@ -81,15 +81,15 @@
       "name": "招商银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-13",
-      "reference_close": 42.93,
+      "signal_date": "2026-11-16",
+      "reference_close": 43.4,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 42.676,
-        "ma60": 41.346,
-        "ma120": 39.7067,
-        "volume_ratio20": 0.815,
+        "ma20": 42.6935,
+        "ma60": 41.4283,
+        "ma120": 39.7588,
+        "volume_ratio20": 0.922,
         "prior_60d_close_high": 43.55,
         "observed_120d_to_40d_drawdown_pct": 8.612
       },
@@ -101,15 +101,15 @@
       "name": "贵州茅台",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-13",
-      "reference_close": 1435.26,
+      "signal_date": "2026-11-16",
+      "reference_close": 1453.9,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 1390.2535,
-        "ma60": 1319.81,
-        "ma120": 1295.112,
-        "volume_ratio20": 0.929,
+        "ma20": 1396.7,
+        "ma60": 1321.6752,
+        "ma120": 1296.3028,
+        "volume_ratio20": 0.885,
         "prior_60d_close_high": 1480.0,
         "observed_120d_to_40d_drawdown_pct": 17.054
       },
@@ -121,17 +121,37 @@
       "name": "工商银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-13",
-      "reference_close": 8.85,
+      "signal_date": "2026-11-16",
+      "reference_close": 9.05,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 8.5795,
-        "ma60": 8.2418,
-        "ma120": 7.8398,
-        "volume_ratio20": 0.813,
-        "prior_60d_close_high": 8.78,
+        "ma20": 8.602,
+        "ma60": 8.2667,
+        "ma120": 7.8557,
+        "volume_ratio20": 0.855,
+        "prior_60d_close_high": 8.85,
         "observed_120d_to_40d_drawdown_pct": 9.91
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "600900",
+      "name": "长江电力",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-16",
+      "reference_close": 30.49,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 29.728,
+        "ma60": 28.8842,
+        "ma120": 28.3353,
+        "volume_ratio20": 1.254,
+        "prior_60d_close_high": 29.99,
+        "observed_120d_to_40d_drawdown_pct": 7.209
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
@@ -141,17 +161,37 @@
       "name": "中国银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-13",
-      "reference_close": 7.18,
+      "signal_date": "2026-11-16",
+      "reference_close": 7.32,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 7.025,
-        "ma60": 6.677,
-        "ma120": 6.2953,
-        "volume_ratio20": 0.897,
+        "ma20": 7.0355,
+        "ma60": 6.701,
+        "ma120": 6.308,
+        "volume_ratio20": 0.836,
         "prior_60d_close_high": 7.24,
-        "observed_120d_to_40d_drawdown_pct": 10.759
+        "observed_120d_to_40d_drawdown_pct": 10.621
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "601288",
+      "name": "农业银行",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-16",
+      "reference_close": 7.59,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 7.376,
+        "ma60": 7.0768,
+        "ma120": 6.7615,
+        "volume_ratio20": 1.277,
+        "prior_60d_close_high": 7.56,
+        "observed_120d_to_40d_drawdown_pct": 11.649
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

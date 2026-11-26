@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-11-26T03:29:40.810306+08:00",
+  "generated_at": "2026-11-27T03:12:02.176483+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-11-26T03:29:39.913961+08:00",
+  "history_refresh_generated_at": "2026-11-27T03:12:01.198471+08:00",
   "attempted": 100,
   "evaluated": 96,
   "stale_or_short": [
@@ -68,30 +68,50 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 1,
+  "signal_count": 2,
   "signal_count_by_strategy": {
     "bottom_reversal_v1": 0,
     "volume_breakout_v1": 0,
-    "trend_pullback_v1": 1,
+    "trend_pullback_v1": 2,
     "short_rebound_v1": 0
   },
   "signals": [
     {
-      "code": "600519",
-      "name": "贵州茅台",
+      "code": "600036",
+      "name": "招商银行",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-25",
-      "reference_close": 1474.84,
+      "signal_date": "2026-11-26",
+      "reference_close": 43.38,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 1441.1235,
-        "ma60": 1340.812,
-        "ma120": 1305.9372,
-        "volume_ratio20": 1.004,
-        "prior_60d_close_high": 1485.75,
-        "observed_120d_to_40d_drawdown_pct": 17.527
+        "ma20": 43.1085,
+        "ma60": 42.0112,
+        "ma120": 40.1518,
+        "volume_ratio20": 0.905,
+        "prior_60d_close_high": 44.0,
+        "observed_120d_to_40d_drawdown_pct": 8.922
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "601857",
+      "name": "中国石油",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-26",
+      "reference_close": 12.76,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 12.7365,
+        "ma60": 12.0465,
+        "ma120": 11.1602,
+        "volume_ratio20": 0.886,
+        "prior_60d_close_high": 14.02,
+        "observed_120d_to_40d_drawdown_pct": 24.094
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null

@@ -1,10 +1,10 @@
 {
   "schema": 1,
   "status": "partial",
-  "generated_at": "2026-11-27T03:12:02.176483+08:00",
+  "generated_at": "2026-11-28T03:07:50.973824+08:00",
   "scope": "仅冻结的100只样本股票，非全市场；四套研究策略，非真实交易或收益保证",
   "pool_source_snapshot_at": "2026-10-14T02:22:36.494577+08:00",
-  "history_refresh_generated_at": "2026-11-27T03:12:01.198471+08:00",
+  "history_refresh_generated_at": "2026-11-28T03:07:49.667579+08:00",
   "attempted": 100,
   "evaluated": 96,
   "stale_or_short": [
@@ -68,50 +68,290 @@
       "required_data": "至少130根已完成日K线"
     }
   ],
-  "signal_count": 2,
+  "signal_count": 14,
   "signal_count_by_strategy": {
-    "bottom_reversal_v1": 0,
-    "volume_breakout_v1": 0,
-    "trend_pullback_v1": 2,
+    "bottom_reversal_v1": 10,
+    "volume_breakout_v1": 1,
+    "trend_pullback_v1": 3,
     "short_rebound_v1": 0
   },
   "signals": [
     {
-      "code": "600036",
-      "name": "招商银行",
+      "code": "601318",
+      "name": "中国平安",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-26",
-      "reference_close": 43.38,
+      "signal_date": "2026-11-27",
+      "reference_close": 55.01,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 43.1085,
-        "ma60": 42.0112,
-        "ma120": 40.1518,
-        "volume_ratio20": 0.905,
-        "prior_60d_close_high": 44.0,
-        "observed_120d_to_40d_drawdown_pct": 8.922
+        "ma20": 54.334,
+        "ma60": 53.9227,
+        "ma120": 53.0574,
+        "volume_ratio20": 1.301,
+        "prior_60d_close_high": 58.24,
+        "observed_120d_to_40d_drawdown_pct": 15.053
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
     },
     {
-      "code": "601857",
-      "name": "中国石油",
+      "code": "600519",
+      "name": "贵州茅台",
       "strategy_id": "trend_pullback_v1",
       "strategy_name": "趋势回踩修复",
-      "signal_date": "2026-11-26",
-      "reference_close": 12.76,
+      "signal_date": "2026-11-27",
+      "reference_close": 1472.36,
       "price_adjustment": "none",
       "status": "hypothesis_only",
       "metrics": {
-        "ma20": 12.7365,
-        "ma60": 12.0465,
-        "ma120": 11.1602,
-        "volume_ratio20": 0.886,
-        "prior_60d_close_high": 14.02,
-        "observed_120d_to_40d_drawdown_pct": 24.094
+        "ma20": 1450.889,
+        "ma60": 1346.583,
+        "ma120": 1308.8724,
+        "volume_ratio20": 0.858,
+        "prior_60d_close_high": 1485.75,
+        "observed_120d_to_40d_drawdown_pct": 17.527
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "002463",
+      "name": "沪电股份",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 89.2,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 81.5405,
+        "ma60": 104.8605,
+        "ma120": 115.8707,
+        "volume_ratio20": 1.289,
+        "prior_60d_close_high": 128.25,
+        "observed_120d_to_40d_drawdown_pct": 54.633
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "002475",
+      "name": "立讯精密",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 50.6,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 48.5335,
+        "ma60": 50.3172,
+        "ma120": 56.0208,
+        "volume_ratio20": 1.648,
+        "prior_60d_close_high": 57.62,
+        "observed_120d_to_40d_drawdown_pct": 44.154
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300059",
+      "name": "东方财富",
+      "strategy_id": "trend_pullback_v1",
+      "strategy_name": "趋势回踩修复",
+      "signal_date": "2026-11-27",
+      "reference_close": 19.13,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 18.502,
+        "ma60": 18.4073,
+        "ma120": 19.0443,
+        "volume_ratio20": 2.327,
+        "prior_60d_close_high": 19.62,
+        "observed_120d_to_40d_drawdown_pct": 21.767
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300604",
+      "name": "长川科技",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 200.62,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 180.8965,
+        "ma60": 219.9383,
+        "ma120": 250.8997,
+        "volume_ratio20": 1.268,
+        "prior_60d_close_high": 284.8,
+        "observed_120d_to_40d_drawdown_pct": 61.013
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "300548",
+      "name": "长芯博创",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 121.13,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 113.3055,
+        "ma60": 169.3435,
+        "ma120": 188.9566,
+        "volume_ratio20": 1.404,
+        "prior_60d_close_high": 243.99,
+        "observed_120d_to_40d_drawdown_pct": 68.127
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "688256",
+      "name": "寒武纪",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 1118.99,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 906.2945,
+        "ma60": 980.1452,
+        "ma120": 1117.0421,
+        "volume_ratio20": 1.386,
+        "prior_60d_close_high": 1136.01,
+        "observed_120d_to_40d_drawdown_pct": 53.703
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "688498",
+      "name": "源杰科技",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 704.4,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 640.851,
+        "ma60": 1130.8728,
+        "ma120": 1332.6511,
+        "volume_ratio20": 1.352,
+        "prior_60d_close_high": 1838.56,
+        "observed_120d_to_40d_drawdown_pct": 71.865
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "688072",
+      "name": "拓荆科技",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 547.37,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 494.75,
+        "ma60": 575.4225,
+        "ma120": 634.6483,
+        "volume_ratio20": 1.233,
+        "prior_60d_close_high": 730.3,
+        "observed_120d_to_40d_drawdown_pct": 58.091
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "688012",
+      "name": "中微公司",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 269.1,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 244.86,
+        "ma60": 290.2348,
+        "ma120": 330.7357,
+        "volume_ratio20": 1.416,
+        "prior_60d_close_high": 376.01,
+        "observed_120d_to_40d_drawdown_pct": 59.934
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "688981",
+      "name": "中芯国际",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 134.42,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 114.3515,
+        "ma60": 113.447,
+        "ma120": 125.6506,
+        "volume_ratio20": 1.915,
+        "prior_60d_close_high": 128.7,
+        "observed_120d_to_40d_drawdown_pct": 46.24
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "688981",
+      "name": "中芯国际",
+      "strategy_id": "volume_breakout_v1",
+      "strategy_name": "趋势放量突破",
+      "signal_date": "2026-11-27",
+      "reference_close": 134.42,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 114.3515,
+        "ma60": 113.447,
+        "ma120": 125.6506,
+        "volume_ratio20": 1.915,
+        "prior_60d_close_high": 128.7,
+        "observed_120d_to_40d_drawdown_pct": 46.24
+      },
+      "execution": "信号收盘后才已知，不表示该收盘价可成交",
+      "forward_performance": null
+    },
+    {
+      "code": "920045",
+      "name": "蘅东光",
+      "strategy_id": "bottom_reversal_v1",
+      "strategy_name": "底部反转",
+      "signal_date": "2026-11-27",
+      "reference_close": 487.04,
+      "price_adjustment": "none",
+      "status": "hypothesis_only",
+      "metrics": {
+        "ma20": 365.32,
+        "ma60": 450.5358,
+        "ma120": 439.4313,
+        "volume_ratio20": 1.353,
+        "prior_60d_close_high": 586.0,
+        "observed_120d_to_40d_drawdown_pct": 63.946
       },
       "execution": "信号收盘后才已知，不表示该收盘价可成交",
       "forward_performance": null
